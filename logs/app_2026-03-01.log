@@ -1,0 +1,601 @@
+[2026-03-01 00:26:58] [32mINFO    [0m [__main__] ============================================================
+[2026-03-01 00:26:58] [32mINFO    [0m [__main__] Aurum Intelligence Stock Analyzer 啟動中...
+[2026-03-01 00:26:58] [32mINFO    [0m [__main__] 模型：gemini-3-flash-preview
+[2026-03-01 00:26:58] [32mINFO    [0m [__main__] ============================================================
+[2026-03-01 00:26:59] [32mINFO    [0m [__main__] ✓ Gemini Client 初始化成功
+[2026-03-01 00:26:59] [32mINFO    [0m [__main__] ✓ PromptManager 初始化成功
+[2026-03-01 00:26:59] [32mINFO    [0m [__main__] 以 debug 模式啟動，port=5000
+[2026-03-01 00:26:59] [33mWARNING [0m [werkzeug]  * Debugger is active!
+[2026-03-01 00:41:36] [32mINFO    [0m [__main__] ============================================================
+[2026-03-01 00:41:36] [32mINFO    [0m [__main__] Aurum Intelligence Stock Analyzer 啟動中...
+[2026-03-01 00:41:36] [32mINFO    [0m [__main__] 模型：gemini-3-flash-preview
+[2026-03-01 00:41:36] [32mINFO    [0m [__main__] ============================================================
+[2026-03-01 00:41:37] [32mINFO    [0m [__main__] ✓ Gemini Client 初始化成功
+[2026-03-01 00:41:37] [32mINFO    [0m [__main__] ✓ PromptManager 初始化成功
+[2026-03-01 00:41:37] [32mINFO    [0m [__main__] 以 debug 模式啟動，port=5000
+[2026-03-01 00:41:39] [32mINFO    [0m [__main__] ============================================================
+[2026-03-01 00:41:39] [32mINFO    [0m [__main__] Aurum Intelligence Stock Analyzer 啟動中...
+[2026-03-01 00:41:39] [32mINFO    [0m [__main__] 模型：gemini-3-flash-preview
+[2026-03-01 00:41:39] [32mINFO    [0m [__main__] ============================================================
+[2026-03-01 00:41:40] [32mINFO    [0m [__main__] ✓ Gemini Client 初始化成功
+[2026-03-01 00:41:40] [32mINFO    [0m [__main__] ✓ PromptManager 初始化成功
+[2026-03-01 00:41:40] [32mINFO    [0m [__main__] 以 debug 模式啟動，port=5000
+[2026-03-01 00:41:40] [33mWARNING [0m [werkzeug]  * Debugger is active!
+[2026-03-01 00:42:11] DEBUG    [__main__] 根路徑跳轉 → /NVDA
+[2026-03-01 00:42:11] [32mINFO    [0m [__main__] → GET /NVDA  [from 127.0.0.1]
+[2026-03-01 00:42:11] [32mINFO    [0m [__main__] [Cache HIT] NVDA
+[2026-03-01 00:42:11] [32mINFO    [0m [__main__] 快取區塊: 7/7
+[2026-03-01 00:42:11] [32mINFO    [0m [__main__] ← GET /NVDA  200  23.4ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/biz  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/finance  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/biz
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/exec  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/biz  200  5.1ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/call  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/finance
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/ta_price  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/finance  200  7.0ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/ta_analyst  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/exec
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] → POST /analyze/ta_social  [from 127.0.0.1]
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/exec  200  10.3ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/call
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/ta_analyst
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/ta_price
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/call  200  11.9ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/ta_analyst  200  7.2ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] [Cache HIT] NVDA/ta_social
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/ta_price  200  12.0ms
+[2026-03-01 00:42:12] [32mINFO    [0m [__main__] ← POST /analyze/ta_social  200  6.3ms
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] → POST /analyze/biz  [from 127.0.0.1]
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] → POST /analyze/finance  [from 127.0.0.1]
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] → POST /analyze/exec  [from 127.0.0.1]
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] → POST /analyze/call  [from 127.0.0.1]
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] → POST /analyze/ta_price  [from 127.0.0.1]
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/biz]] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/ta_price]] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] → POST /analyze/ta_analyst  [from 127.0.0.1]
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/ta_price]] 完成，耗時 0.6ms
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/call]] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/biz]] 完成，耗時 3.9ms
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/ta_price
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/exec]] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/call]] 完成，耗時 0.8ms
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/finance]] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/biz
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/ta_price]] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/ta_analyst]] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/call
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/call]] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/biz]] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/finance]] 完成，耗時 2.1ms
+[2026-03-01 00:42:22] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/exec]] 完成，耗時 1.6ms
+[2026-03-01 00:42:22] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:22] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/ta_analyst]] 完成，耗時 2.2ms
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/finance
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/exec
+[2026-03-01 00:42:22] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/ta_analyst
+[2026-03-01 00:42:22] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:22] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:22] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/finance]] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/exec]] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/ta_analyst]] 開始
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:42:22] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:22] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:22] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:22] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:22] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:42:22] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:42:22] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BE550>
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CB350>
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376C9B90>
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BE190>
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CAAD0>
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BCC10>
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:42:22] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:42:23] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BF390>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BDF50>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376C9F50>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CB650>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CB010>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376C8790>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:23] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:42:43 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=20642'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:42:43] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 21426.7ms
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/ta_analyst]] 完成，耗時 21434.4ms
+[2026-03-01 00:42:43] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:42:43] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:42:43] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] [Cache SAVE] TEM/ta_analyst
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] ← POST /analyze/ta_analyst  200  21534.1ms
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] → POST /analyze/ta_social  [from 127.0.0.1]
+[2026-03-01 00:42:43] DEBUG    [__main__] ⏱ [建立 Prompt [TEM/ta_social]] 開始
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TEM/ta_social]] 完成，耗時 1.4ms
+[2026-03-01 00:42:43] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TEM/ta_social
+[2026-03-01 00:42:43] DEBUG    [__main__] ⏱ [Gemini 分析 [TEM/ta_social]] 開始
+[2026-03-01 00:42:43] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:42:43] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:42:43] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:42:43] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:42:45 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=23017'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:42:46] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 23834.1ms
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/biz]] 完成，耗時 23837.5ms
+[2026-03-01 00:42:46] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:42:46] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:42:46] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] [Cache SAVE] TEM/biz
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] ← POST /analyze/biz  200  23873.2ms
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:42:46 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=23685'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:42:46] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:42:46] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 24529.7ms
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/ta_price]] 完成，耗時 24534.6ms
+[2026-03-01 00:42:46] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:42:46] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:42:46] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] [Cache SAVE] TEM/ta_price
+[2026-03-01 00:42:46] [32mINFO    [0m [__main__] ← POST /analyze/ta_price  200  24558.2ms
+[2026-03-01 00:42:51] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:42:51 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=28461'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:42:51] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:42:51] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:51] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:42:51] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:42:51] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:42:51] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:42:51] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:42:51] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 29270.6ms
+[2026-03-01 00:42:51] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/call]] 完成，耗時 29272.4ms
+[2026-03-01 00:42:51] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:42:51] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:42:51] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:42:51] [32mINFO    [0m [__main__] [Cache SAVE] TEM/call
+[2026-03-01 00:42:51] [32mINFO    [0m [__main__] ← POST /analyze/call  200  29299.0ms
+[2026-03-01 00:42:56] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:42:56 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=33749'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:42:56] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:42:56] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:57] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:42:57] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:42:57] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:42:57] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:42:57] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:42:57] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:42:57] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:42:57] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 34569.2ms
+[2026-03-01 00:42:57] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/finance]] 完成，耗時 34576.9ms
+[2026-03-01 00:42:57] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:42:57] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:42:57] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:42:57] [32mINFO    [0m [__main__] [Cache SAVE] TEM/finance
+[2026-03-01 00:42:57] [32mINFO    [0m [__main__] ← POST /analyze/finance  200  34612.8ms
+[2026-03-01 00:42:58] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:42:57 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=34829'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:42:58] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:42:58] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:42:58] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:42:58] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:42:58] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:42:58] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 35645.3ms
+[2026-03-01 00:42:58] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/exec]] 完成，耗時 35652.9ms
+[2026-03-01 00:42:58] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:42:58] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:42:58] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:42:58] [32mINFO    [0m [__main__] [Cache SAVE] TEM/exec
+[2026-03-01 00:42:58] [32mINFO    [0m [__main__] ← POST /analyze/exec  200  35687.3ms
+[2026-03-01 00:43:01] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:43:00 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=17011'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:43:01] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:43:01] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:43:01] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:43:01] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:43:01] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:43:01] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 17202.7ms
+[2026-03-01 00:43:01] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TEM/ta_social]] 完成，耗時 17203.5ms
+[2026-03-01 00:43:01] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:43:01] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:43:01] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:43:01] [32mINFO    [0m [__main__] [Cache SAVE] TEM/ta_social
+[2026-03-01 00:43:01] [32mINFO    [0m [__main__] ← POST /analyze/ta_social  200  17221.6ms
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] → POST /analyze/biz  [from 127.0.0.1]
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] → POST /analyze/finance  [from 127.0.0.1]
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/biz]] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/biz]] 完成，耗時 2.7ms
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/finance]] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/biz
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/biz]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/finance]] 完成，耗時 1.3ms
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/finance
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/finance]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:24] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] → POST /analyze/call  [from 127.0.0.1]
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] → POST /analyze/exec  [from 127.0.0.1]
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/call]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/exec]] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] → POST /analyze/ta_analyst  [from 127.0.0.1]
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/call]] 完成，耗時 2.7ms
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/call
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/call]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/ta_analyst]] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] → POST /analyze/ta_price  [from 127.0.0.1]
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/exec]] 完成，耗時 1.8ms
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/exec
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/exec]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/ta_price]] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/ta_analyst]] 完成，耗時 1.5ms
+[2026-03-01 00:44:24] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:44:24] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/ta_price]] 完成，耗時 0.7ms
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/ta_analyst
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/ta_analyst]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/ta_price
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/ta_price]] 開始
+[2026-03-01 00:44:24] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:24] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:24] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:44:24] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.started host='generativelanguage.googleapis.com' port=443 local_address=None timeout=None socket_options=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376AF090>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376AE050>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BD610>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BD710>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CA7D0>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CAED0>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.started ssl_context=<ssl.SSLContext object at 0x0000020435CFC680> server_hostname='generativelanguage.googleapis.com' timeout=None
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BDCD0>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376AE710>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BF510>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CAC90>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376CBC50>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.connection] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000204376BF1D0>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:24] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:44:41 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=17441'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:44:42] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 18023.7ms
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/exec]] 完成，耗時 18025.1ms
+[2026-03-01 00:44:42] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:44:42] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:44:42] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] [Cache SAVE] TTD/exec
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ← POST /analyze/exec  200  18084.3ms
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] → POST /analyze/ta_social  [from 127.0.0.1]
+[2026-03-01 00:44:42] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/ta_social]] 開始
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/ta_social]] 完成，耗時 0.3ms
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/ta_social
+[2026-03-01 00:44:42] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/ta_social]] 開始
+[2026-03-01 00:44:42] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:42] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:42] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:44:42 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=17985'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:44:42] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 18602.3ms
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/call]] 完成，耗時 18603.4ms
+[2026-03-01 00:44:42] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:44:42] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:44:42] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] [Cache SAVE] TTD/call
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ← POST /analyze/call  200  18627.3ms
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] → POST /analyze/biz  [from 127.0.0.1]
+[2026-03-01 00:44:42] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/biz]] 開始
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/biz]] 完成，耗時 0.5ms
+[2026-03-01 00:44:42] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/biz
+[2026-03-01 00:44:42] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/biz]] 開始
+[2026-03-01 00:44:42] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:42] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:42] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:42] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:43] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:44:43 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=19090'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:44:43] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:44:43] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:43] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:44:43] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:44:43] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:44:43] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 19667.2ms
+[2026-03-01 00:44:43] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/ta_price]] 完成，耗時 19667.8ms
+[2026-03-01 00:44:43] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:44:43] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:44:43] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:44:44] [32mINFO    [0m [__main__] [Cache SAVE] TTD/ta_price
+[2026-03-01 00:44:44] [32mINFO    [0m [__main__] ← POST /analyze/ta_price  200  19733.9ms
+[2026-03-01 00:44:44] [32mINFO    [0m [__main__] → POST /analyze/finance  [from 127.0.0.1]
+[2026-03-01 00:44:44] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/finance]] 開始
+[2026-03-01 00:44:44] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/finance]] 完成，耗時 0.4ms
+[2026-03-01 00:44:44] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/finance
+[2026-03-01 00:44:44] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/finance]] 開始
+[2026-03-01 00:44:44] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:44] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:44] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:44] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:44] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:44] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:44] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:44] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:44:44 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=20369'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:44:45] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 21021.3ms
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/biz]] 完成，耗時 21022.8ms
+[2026-03-01 00:44:45] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:44:45] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:44:45] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] [Cache SAVE] TTD/biz
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ← POST /analyze/biz  200  21050.3ms
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] → POST /analyze/exec  [from 127.0.0.1]
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] [Cache HIT] TTD/exec
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ← POST /analyze/exec  200  4.8ms
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] → POST /analyze/call  [from 127.0.0.1]
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] [Cache HIT] TTD/call
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ← POST /analyze/call  200  1.6ms
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] → POST /analyze/ta_price  [from 127.0.0.1]
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] [Cache HIT] TTD/ta_price
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ← POST /analyze/ta_price  200  2.6ms
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] → POST /analyze/ta_analyst  [from 127.0.0.1]
+[2026-03-01 00:44:45] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/ta_analyst]] 開始
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/ta_analyst]] 完成，耗時 0.5ms
+[2026-03-01 00:44:45] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/ta_analyst
+[2026-03-01 00:44:45] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/ta_analyst]] 開始
+[2026-03-01 00:44:45] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:45] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:45] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:45] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:51] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:44:51 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=27058'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:44:51] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:44:51] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:51] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:44:51] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:44:51] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:44:51] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 27741.0ms
+[2026-03-01 00:44:51] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/finance]] 完成，耗時 27741.9ms
+[2026-03-01 00:44:51] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:44:51] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:44:51] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:44:51] [32mINFO    [0m [__main__] [Cache SAVE] TTD/finance
+[2026-03-01 00:44:52] [32mINFO    [0m [__main__] ← POST /analyze/finance  200  27770.4ms
+[2026-03-01 00:44:52] [32mINFO    [0m [__main__] → POST /analyze/ta_social  [from 127.0.0.1]
+[2026-03-01 00:44:52] DEBUG    [__main__] ⏱ [建立 Prompt [TTD/ta_social]] 開始
+[2026-03-01 00:44:52] [32mINFO    [0m [__main__] ⏱ [建立 Prompt [TTD/ta_social]] 完成，耗時 1.0ms
+[2026-03-01 00:44:52] [32mINFO    [0m [__main__] [AI] 呼叫 Gemini: TTD/ta_social
+[2026-03-01 00:44:52] DEBUG    [__main__] ⏱ [Gemini 分析 [TTD/ta_social]] 開始
+[2026-03-01 00:44:52] DEBUG    [__main__] Gemini API 請求（attempt 1）
+[2026-03-01 00:44:52] DEBUG    [__main__] ⏱ [Gemini API attempt 1] 開始
+[2026-03-01 00:44:52] [32mINFO    [0m [google_genai.models] AFC is enabled with max remote calls: 10.
+[2026-03-01 00:44:52] DEBUG    [httpcore.http11] send_request_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:52] DEBUG    [httpcore.http11] send_request_headers.complete
+[2026-03-01 00:44:52] DEBUG    [httpcore.http11] send_request_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:52] DEBUG    [httpcore.http11] send_request_body.complete
+[2026-03-01 00:44:52] DEBUG    [httpcore.http11] receive_response_headers.started request=<Request [b'POST']>
+[2026-03-01 00:44:58] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:44:58 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=16009'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:44:58] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:44:58] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:44:58] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:44:58] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:44:58] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:44:58] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 16195.5ms
+[2026-03-01 00:44:58] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/ta_social]] 完成，耗時 16196.3ms
+[2026-03-01 00:44:58] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:44:58] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:44:58] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:44:58] [32mINFO    [0m [__main__] [Cache SAVE] TTD/ta_social
+[2026-03-01 00:44:58] [32mINFO    [0m [__main__] ← POST /analyze/ta_social  200  16213.2ms
+[2026-03-01 00:45:05] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:45:04 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=22260'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:45:05] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:45:05] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:45:05] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:45:05] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:45:05] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:45:05] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:45:05] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:45:05] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 22462.3ms
+[2026-03-01 00:45:05] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/biz]] 完成，耗時 22463.1ms
+[2026-03-01 00:45:05] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:45:05] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:45:05] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:45:05] [32mINFO    [0m [__main__] [Cache SAVE] TTD/biz
+[2026-03-01 00:45:05] [32mINFO    [0m [__main__] ← POST /analyze/biz  200  22480.9ms
+[2026-03-01 00:45:06] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:45:06 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=41671'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:45:06] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:45:06] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:45:06] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:45:06] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:45:06] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:45:06] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 42382.5ms
+[2026-03-01 00:45:06] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/ta_analyst]] 完成，耗時 42383.3ms
+[2026-03-01 00:45:06] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:45:06] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:45:06] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:45:06] [32mINFO    [0m [__main__] [Cache SAVE] TTD/ta_analyst
+[2026-03-01 00:45:06] [32mINFO    [0m [__main__] ← POST /analyze/ta_analyst  200  42452.8ms
+[2026-03-01 00:45:07] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:45:06 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=14836'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:45:07] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:45:07] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:45:07] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:45:07] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:45:07] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:45:07] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 15027.0ms
+[2026-03-01 00:45:07] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/ta_social]] 完成，耗時 15027.9ms
+[2026-03-01 00:45:07] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:45:07] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:45:07] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:45:07] [32mINFO    [0m [__main__] [Cache SAVE] TTD/ta_social
+[2026-03-01 00:45:07] [32mINFO    [0m [__main__] ← POST /analyze/ta_social  200  15043.6ms
+[2026-03-01 00:45:11] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:45:11 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=26136'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:45:11] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:45:11] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:45:11] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:45:11] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:45:11] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:45:11] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:45:11] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:45:11] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 26353.6ms
+[2026-03-01 00:45:11] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/ta_analyst]] 完成，耗時 26354.8ms
+[2026-03-01 00:45:11] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:45:11] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:45:11] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:45:11] [32mINFO    [0m [__main__] [Cache SAVE] TTD/ta_analyst
+[2026-03-01 00:45:11] [32mINFO    [0m [__main__] ← POST /analyze/ta_analyst  200  26376.5ms
+[2026-03-01 00:45:18] DEBUG    [httpcore.http11] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=UTF-8'), (b'Vary', b'Origin'), (b'Vary', b'X-Origin'), (b'Vary', b'Referer'), (b'Content-Encoding', b'gzip'), (b'Date', b'Sat, 28 Feb 2026 16:45:18 GMT'), (b'Server', b'scaffolding on HTTPServer2'), (b'X-XSS-Protection', b'0'), (b'X-Frame-Options', b'SAMEORIGIN'), (b'X-Content-Type-Options', b'nosniff'), (b'Server-Timing', b'gfet4t7; dur=34806'), (b'Alt-Svc', b'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'), (b'Transfer-Encoding', b'chunked')])
+[2026-03-01 00:45:18] [32mINFO    [0m [httpx] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent "HTTP/1.1 200 OK"
+[2026-03-01 00:45:18] DEBUG    [httpcore.http11] receive_response_body.started request=<Request [b'POST']>
+[2026-03-01 00:45:19] DEBUG    [httpcore.http11] receive_response_body.complete
+[2026-03-01 00:45:19] DEBUG    [httpcore.http11] response_closed.started
+[2026-03-01 00:45:19] DEBUG    [httpcore.http11] response_closed.complete
+[2026-03-01 00:45:19] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:45:19] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:45:19] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:45:19] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:45:19] DEBUG    [httpcore.connection] close.started
+[2026-03-01 00:45:19] DEBUG    [httpcore.connection] close.complete
+[2026-03-01 00:45:19] [32mINFO    [0m [__main__] ⏱ [Gemini API attempt 1] 完成，耗時 35023.4ms
+[2026-03-01 00:45:19] [32mINFO    [0m [__main__] ⏱ [Gemini 分析 [TTD/finance]] 完成，耗時 35024.2ms
+[2026-03-01 00:45:19] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.tables.TableExtension".
+[2026-03-01 00:45:19] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+[2026-03-01 00:45:19] DEBUG    [MARKDOWN] Successfully loaded extension "markdown.extensions.nl2br.Nl2BrExtension".
+[2026-03-01 00:45:19] [32mINFO    [0m [__main__] [Cache SAVE] TTD/finance
+[2026-03-01 00:45:19] [32mINFO    [0m [__main__] ← POST /analyze/finance  200  35041.0ms
+[2026-03-01 00:49:55] DEBUG    [__main__] 根路徑跳轉 → /NVDA
+[2026-03-01 00:49:55] [32mINFO    [0m [__main__] → GET /NVDA  [from 127.0.0.1]
+[2026-03-01 00:49:55] [32mINFO    [0m [__main__] [Cache HIT] NVDA
+[2026-03-01 00:49:55] [32mINFO    [0m [__main__] 快取區塊: 7/7
+[2026-03-01 00:49:55] [32mINFO    [0m [__main__] ← GET /NVDA  200  8.4ms
