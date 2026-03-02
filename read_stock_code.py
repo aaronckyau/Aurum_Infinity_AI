@@ -22,7 +22,7 @@ def normalize_ticker(ticker: str) -> str:
     return raw.zfill(4) + '.HK' if len(raw) <= 4 else raw
 
 
-def _find(ticker: str) -> dict | None:
+def _find(ticker: str):
     """Return the raw JSON entry for a ticker, or None."""
     code = normalize_ticker(ticker)
     base = code.split('.')[0]
@@ -32,7 +32,7 @@ def _find(ticker: str) -> dict | None:
     return None
 
 
-def get_stock_info(ticker: str) -> tuple[str, str] | tuple[None, None]:
+def get_stock_info(ticker: str):
     """Return (name, exchange) for use by app.py, or (None, None) if not found."""
     entry = _find(ticker)
     if entry:
@@ -63,7 +63,7 @@ def _exchange_priority(exchange: str) -> int:
     return 2
 
 
-def search_stocks(query: str, limit: int = 8) -> list[dict]:
+def search_stocks(query: str, limit: int = 8):
     """
     搜尋股票代碼或名稱，回傳最多 limit 筆結果。
 
