@@ -11,18 +11,11 @@
 
    CSS：static/css/terminal.css
    JS ：static/js/terminal.js
-
-   修改指引：
-     - 修改品牌色      → static/css/base.css 的 :root 變數
-     - 修改卡片預覽高度 → static/css/terminal.css 的 .preview-box
-     - 修改 JS 邏輯    → static/js/terminal.js
-     - 新增分析模組    → 在下方 for 迴圈加入 (id, title, icon)
-                         並在 prompts.yaml 加入對應 section
    ================================================================ #}
 
 {% extends "base.html" %}
 
-{% block title %}{{ stock_name }} 投資決策終端 | Aurum Intelligence{% endblock %}
+{% block title %}{{ chinese_name }} 投資決策終端 | Aurum Intelligence{% endblock %}
 
 {# body 加上 data-ticker 供 JS 讀取 #}
 {% block body_class %}p-3 sm:p-6" data-ticker="{{ ticker }}{% endblock %}
@@ -40,7 +33,7 @@
             <div>
                 {# id 供 navigateToStock() 即時更新名稱 #}
                 <h1 id="header-chinese-name" class="text-2xl sm:text-4xl font-serif italic text-[#b18e4d] tracking-widest leading-none">{{ chinese_name }}</h1>
-                <p id="header-en-name" class="text-xs text-gray-400 mt-2 tracking-[0.3em] uppercase font-bold">{{ stock_name }} // {{ ticker }}</p>
+                <p id="header-en-name" class="text-xs text-gray-400 mt-2 tracking-[0.3em] uppercase font-bold">{{ chinese_name }} // {{ ticker }}</p>
             </div>
             <div class="hidden sm:block h-12 w-[1px] bg-gray-200"></div>
         </div>
@@ -48,14 +41,11 @@
         {# 搜尋欄 + 自動完成下拉選單 #}
         <div class="relative w-full sm:w-auto" id="autocomplete-wrapper">
             {#
-               FIX: form submit 優先呼叫 navigateToStock（Optimistic UI），
-                    navigateToStock 未載入時才 fallback 到 location.href
+               FIX: form submit 先呼叫 /api/search_stock 查出官方代碼和名稱，
+                    再交給 navigateToStock（Optimistic UI）做無白屏切換。
+                    這樣無論用戶輸入 "1398" 還是 "01398"，都能顯示正確公司名稱。
             #}
-            <form onsubmit="event.preventDefault();
-                            var t = document.getElementById('stock-search-input').value.trim().toUpperCase();
-                            if (!t) return;
-                            if (typeof navigateToStock === 'function') { navigateToStock(t, t); }
-                            else { window.location.href = '/' + t; }"
+            <form onsubmit="event.preventDefault(); handleSearchSubmit();"
                   class="flex w-full sm:w-auto bg-[#f9f9f9] border border-gray-200 focus-within:ring-1 ring-[#b18e4d] transition-all">
                 <input type="text" id="stock-search-input" placeholder="股票代碼或名稱..."
                        autocomplete="off"
@@ -196,11 +186,6 @@
         `).join('');
 
         dropdown.querySelectorAll('.autocomplete-item').forEach(el => {
-            /*
-             * FIX: 同時綁定 mousedown（桌面）和 touchstart（手機）
-             *      mousedown 用 preventDefault 阻止 input blur 搶先關閉 dropdown
-             *      touchstart 用 passive:false 允許 preventDefault
-             */
             const handler = function (e) {
                 e.preventDefault();
                 selectItem(parseInt(this.dataset.index));
@@ -224,7 +209,6 @@
         if (!item) return;
         input.value = item.code;
         hideDropdown();
-        // navigateToStock 在 terminal.js 定義，實現無白屏切換
         navigateToStock(item.code, item.name);
     }
 
@@ -275,6 +259,52 @@
             hideDropdown();
         }
     });
+
+    /*
+     * ── handleSearchSubmit：處理搜尋框直接輸入並按查詢 ──
+     *
+     * 問題根源：原本的 form onsubmit 直接用 navigateToStock(t, t)，
+     * 兩個參數都是用戶輸入的代碼（例如 "1398"），沒有查詢官方名稱。
+     *
+     * 修復方式：
+     * 1. 先呼叫 /api/search_stock?q=1398 查詢
+     * 2. 取第一個結果的官方代碼（01398.HK）和名稱（工商銀行）
+     * 3. 再交給 navigateToStock(官方代碼, 官方名稱)
+     * 4. 如果 API 沒有結果，fallback 到原來的行為（直接跳轉）
+     *
+     * 比喻：就像查電話簿，不管你怎麼寫名字，
+     * 都先確認一下正式登記名稱再呼叫。
+     */
+    window.handleSearchSubmit = function () {
+        const raw = input.value.trim();
+        if (!raw) return;
+
+        // 先查 API 取得官方代碼和名稱
+        fetch(`/api/search_stock?q=${encodeURIComponent(raw)}`)
+            .then(r => r.json())
+            .then(results => {
+                if (results && results.length > 0) {
+                    // 有結果：用官方代碼和名稱
+                    const best = results[0];
+                    hideDropdown();
+                    navigateToStock(best.code, best.name);
+                } else {
+                    // 查不到：直接跳轉（美股等不在 HK 資料庫的情況）
+                    hideDropdown();
+                    const upper = raw.toUpperCase();
+                    navigateToStock(upper, upper);
+                }
+            })
+            .catch(() => {
+                // API 錯誤：fallback 直接跳轉
+                const upper = raw.toUpperCase();
+                if (typeof navigateToStock === 'function') {
+                    navigateToStock(upper, upper);
+                } else {
+                    window.location.href = '/' + upper;
+                }
+            });
+    };
 })();
 </script>
 {% endblock %}

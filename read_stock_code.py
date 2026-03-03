@@ -22,19 +22,32 @@ def normalize_ticker(ticker: str) -> str:
     return raw.zfill(4) + '.HK' if len(raw) <= 4 else raw
 
 
-def _find(ticker: str) -> dict | None:
-    """Return the raw JSON entry for a ticker, or None."""
+def _find(ticker: str) -> tuple[str | None, dict | None]:
+    """
+    Return (canonical_key, entry) for a ticker, or (None, None).
+    canonical_key 是 JSON 資料庫裡的官方鍵值，例如 '01398.HK'
+    """
     code = normalize_ticker(ticker)
     base = code.split('.')[0]
     for key in [code, base] + [base.zfill(n) for n in (4, 5, 6)]:
         if key in _lookup:
-            return _lookup[key]
-    return None
+            return key, _lookup[key]
+    return None, None
+
+
+def get_canonical_ticker(ticker: str) -> str | None:
+    """
+    返回 JSON 資料庫裡的官方股票代碼（canonical key）。
+    例如：輸入 '1398' 或 '01398' 都返回 '01398.HK'
+    找不到時返回 None。
+    """
+    key, _ = _find(ticker)
+    return key
 
 
 def get_stock_info(ticker: str) -> tuple[str, str] | tuple[None, None]:
     """Return (name, exchange) for use by app.py, or (None, None) if not found."""
-    entry = _find(ticker)
+    _, entry = _find(ticker)
     if entry:
         return entry["name"], entry["exchange"]
     return None, None
@@ -42,7 +55,7 @@ def get_stock_info(ticker: str) -> tuple[str, str] | tuple[None, None]:
 
 def get_name(ticker: str) -> str:
     """Return formatted name + exchange for CLI display."""
-    entry = _find(ticker)
+    _, entry = _find(ticker)
     if entry:
         return f"{entry['name']}  [{entry['exchange']}]"
     return f"Not found: {ticker}"
@@ -90,15 +103,10 @@ def search_stocks(query: str, limit: int = 8) -> list[dict]:
         matched = False
 
         if is_numeric:
-            # 純數字：取代碼的數字部分來比對前綴
-            # 例如輸入 "388"，代碼 "00388" 的數字部分是 "00388"
-            # 去掉前綴零後比對，或直接用 startswith
-            numeric_part = code.split('.')[0]  # "00388" or "000388"
-            # 同時支援：帶前導零 "00388" 或去零 "388" 都能匹配
+            numeric_part = code.split('.')[0]
             if numeric_part.startswith(q_upper) or numeric_part.lstrip('0').startswith(q_upper.lstrip('0') or '0'):
                 matched = True
         else:
-            # 英文/混合：代碼前綴 或 名稱包含
             if code.startswith(q_upper) or q_lower in entry["name"].lower():
                 matched = True
 
@@ -112,14 +120,12 @@ def search_stocks(query: str, limit: int = 8) -> list[dict]:
 
     # ── 排序 ──────────────────────────────────────────────
     if is_numeric:
-        # 純數字輸入：HK 優先 → 代碼長度短優先 → 代碼字母順序
         matches.sort(key=lambda x: (
-            _exchange_priority(x["exchange"]),  # 0=HK, 1=US, 2=CN...
-            len(x["code"]),                     # 代碼長度（短的優先）
-            x["code"],                          # 字母順序
+            _exchange_priority(x["exchange"]),
+            len(x["code"]),
+            x["code"],
         ))
     else:
-        # 英文輸入：代碼完全前綴 → 交易所優先 → 字母順序
         matches.sort(key=lambda x: (
             0 if x["code"].startswith(q_upper) else 1,
             _exchange_priority(x["exchange"]),
@@ -137,4 +143,6 @@ if __name__ == "__main__":
         if code.lower() in ("q", "quit", "exit"):
             break
         if code:
+            canonical = get_canonical_ticker(code)
+            print(f"  canonical → {canonical}")
             print(f"  → {get_name(code)}\n")
