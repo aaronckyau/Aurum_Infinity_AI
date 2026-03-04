@@ -144,6 +144,32 @@ class PromptManager:
 
         return full_prompt.strip()
 
+
+    def get_section_prompt(self, section: str) -> str:
+        """取得某個 section 的原始 prompt 文字（供 Admin 編輯頁顯示）"""
+        self._reload_if_changed()
+        sections = self._config.get('sections', {})
+        return sections.get(section, {}).get('prompt', '')
+
+    def update_section_prompt(self, section: str, new_prompt: str):
+        """更新某個 section 的 prompt 並寫回 YAML 檔案（供 Admin 編輯頁儲存）"""
+        self._reload_if_changed()
+        if 'sections' not in self._config:
+            raise ValueError("YAML 格式錯誤：找不到 sections")
+        if section not in self._config['sections']:
+            raise ValueError(f"找不到 section：{section}")
+
+        self._config['sections'][section]['prompt'] = new_prompt
+
+        with open(self.yaml_path, 'w', encoding='utf-8') as f:
+            yaml.dump(self._config, f,
+                      allow_unicode=True,
+                      default_flow_style=False,
+                      sort_keys=False)
+
+        self._last_modified = os.path.getmtime(self.yaml_path)
+        print(f"[PromptManager] 已儲存 {section} → {self.yaml_path}")
+
     def list_variables(self, section: str) -> list:
         """列出某個 section 中使用的所有變數（方便除錯）"""
         import re
