@@ -397,5 +397,126 @@ def admin_prompt_editor(section_key: str):
                            sections=sections,
                            msg=msg)
 
+
+@app.route('/admin/prompts/<section_key>/save', methods=['POST'])
+@admin_required
+def admin_save_prompt(section_key: str):
+    """儲存編輯後的 prompt 內容到 prompts.yaml"""
+    sections = prompt_manager.get_section_names()
+    if section_key not in sections:
+        return jsonify({"success": False, "error": "找不到此 section"}), 404
+
+    new_content = request.json.get('content', '')
+    if not new_content.strip():
+        return jsonify({"success": False, "error": "Prompt 內容不可為空"})
+
+    try:
+        prompt_manager.update_section_prompt(section_key, new_content)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
+@app.route('/admin/resolve_vars', methods=['POST'])
+@admin_required
+def admin_resolve_vars():
+    """
+    查詢某個股票代碼對應的所有變數實際值
+    供 Prompt 編輯頁的「查詢變數值」功能使用
+    """
+    raw_ticker = request.json.get('ticker', '').strip()
+    if not raw_ticker:
+        return jsonify({"success": False, "error": "請輸入股票代碼"})
+
+    ticker     = resolve_ticker(raw_ticker)
+    stock_name, exchange = get_stock_info(ticker)
+
+    if stock_name is None:
+        return jsonify({"success": False, "error": f"找不到 {raw_ticker} 的資料"})
+
+    # 取得 exchange context（幣值、資料來源等）
+    ctx = prompt_manager._get_exchange_context(exchange)
+
+    variables = {
+        "ticker":         ticker,
+        "stock_name":     stock_name,
+        "chinese_name":   stock_name,
+        "exchange":       exchange,
+        "today":          get_today(),
+        "currency":       ctx.get("currency", ""),
+        "data_source":    ctx.get("data_source", ""),
+        "legal_focus":    ctx.get("legal_focus", ""),
+        "extra_analysis": ctx.get("extra_analysis", ""),
+    }
+
+    return jsonify({
+        "success":   True,
+        "ticker":    ticker,
+        "stock_name": stock_name,
+        "exchange":  exchange,
+        "variables": variables,
+    })
+
+
+@app.route('/admin/prompts/<section_key>/preview', methods=['POST'])
+@admin_required
+def admin_preview_prompt(section_key: str):
+    """
+    用當前編輯中的 prompt 內容（未儲存）對指定股票執行 AI 預覽
+    供 Prompt 編輯頁的「執行預覽」功能使用
+    """
+    data       = request.json
+    raw_ticker = data.get('ticker', '').strip()
+    content    = data.get('content', '').strip()
+
+    if not raw_ticker:
+        return jsonify({"success": False, "error": "請輸入股票代碼"})
+    if not content:
+        return jsonify({"success": False, "error": "Prompt 內容不可為空"})
+
+    ticker     = resolve_ticker(raw_ticker)
+    stock_name, exchange = get_stock_info(ticker)
+
+    if stock_name is None:
+        return jsonify({"success": False, "error": f"找不到 {raw_ticker} 的資料"})
+
+    # 取得 exchange context 並替換變數
+    ctx = prompt_manager._get_exchange_context(exchange)
+    variables = {
+        "ticker":         ticker,
+        "stock_name":     stock_name,
+        "chinese_name":   stock_name,
+        "exchange":       exchange,
+        "today":          get_today(),
+        "currency":       ctx.get("currency", ""),
+        "data_source":    ctx.get("data_source", ""),
+        "legal_focus":    ctx.get("legal_focus", ""),
+        "extra_analysis": ctx.get("extra_analysis", ""),
+    }
+
+    # 組裝完整 prompt（使用編輯中的內容，不從 YAML 讀取）
+    global_cfg  = prompt_manager._config.get('global', {})
+    system_role = global_cfg.get('system_role', '')
+    format_rules = global_cfg.get('format_rules', '')
+    full_prompt = f"{system_role}\n\n{content}\n\n{format_rules}"
+    for key, val in variables.items():
+        full_prompt = full_prompt.replace(f'{{{key}}}', str(val))
+
+    try:
+        response_text = call_gemini_api(full_prompt, use_search=True)
+        html_content  = markdown.markdown(
+            response_text,
+            extensions=['tables', 'fenced_code', 'nl2br']
+        )
+        return jsonify({
+            "success":    True,
+            "html":       html_content,
+            "ticker":     ticker,
+            "stock_name": stock_name,
+            "exchange":   exchange,
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
