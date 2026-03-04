@@ -44,7 +44,7 @@ load_dotenv()
 
 class Config:
     GEMINI_API_KEY  = os.getenv("GEMINI_API_KEY")
-    GEMINI_MODEL    = "gemini-3-flash-preview"
+    GEMINI_MODEL    = "gemini-3.1-flash-lite-preview"
     DEFAULT_TICKER  = 'NVDA'
     PROMPTS_PATH    = os.path.join(os.path.dirname(__file__), 'prompts', 'prompts.yaml')
     API_MAX_TOKENS  = 8000
