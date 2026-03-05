@@ -328,7 +328,7 @@ async function navigateToStock(code, name) {
     if (elEnName) {
         elEnName.style.opacity = '0';
         setTimeout(() => {
-            elEnName.textContent = `${name || code} // ${code}`;
+            elEnName.textContent = code;   // 只顯示股票代碼
             elEnName.style.opacity = '1';
         }, 150);
     }

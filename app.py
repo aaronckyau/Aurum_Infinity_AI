@@ -1,8 +1,7 @@
 """
-Stock Analyzer - 主程式（Google Gemini 3 Flash 版本 + 靜態 HTML 快取）
+Stock Analyzer - 主程式（gemini-3.1-flash-lite-preview 版本 + 靜態 HTML 快取）
 ============================================================================
 API：Google Gemini API + Google Search Grounding（自帶網絡搜索）
-  - 模型：gemini-3-flash-preview
   - SDK：google-genai
   - 快取：靜態 HTML 檔案（cache/{TICKER}/ 資料夾）
 

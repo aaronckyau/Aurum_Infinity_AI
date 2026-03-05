@@ -489,3 +489,231 @@ input[type="text"] {
         letter-spacing: 0.1em;
     }
 }
+
+
+/* ==========================================================
+   8. Header 整體佈局
+   ========================================================== */
+
+/* Header 容器 */
+.header-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2rem;
+    background: white;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: visible;
+    padding: 0 2rem;
+    min-height: 72px;
+}
+
+/* 左側細分隔線 */
+.header-divider {
+    width: 1px;
+    height: 36px;
+    background: #e5e5e5;
+    flex-shrink: 0;
+    margin: 0 1.5rem;
+}
+
+/* ── Logo 區塊 ── */
+.header-logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 1rem 0;
+}
+
+/* ── Allin 顧問品牌名稱 ──────────────────────────────────
+   ★ 自己改呢幾行：
+      --allin-size        字體大小
+      .allin-text  color  "K"  顏色（現：深炭灰）
+      .allin-sub   color  "博士 投研站"   顏色（現：品牌金）
+   ────────────────────────────────────────────────────── */
+.allin-brand {
+    --allin-size: 2.2rem;       /* ← 字體大小 */
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    line-height: 1;
+}
+
+.allin-text {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+    font-size: calc(var(--allin-size) * 1.15);
+    font-weight: 700;
+    font-style: normal;
+    color: #b18e4d;              /* ← "K" 顏色 */
+    letter-spacing: 0.02em;
+    position: relative;
+}
+
+
+.allin-sub {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+    font-size: calc(var(--allin-size) * 0.75);
+    font-weight: 700;
+    font-style: normal;
+    color: #b18e4d;              /* ← "博士 投研站" 顏色 */
+    letter-spacing: 0.0em;
+}
+
+/* Tagline: by Aurum Infinity Capital */
+.allin-tagline {
+    font-size: 7px;
+    color: #bbb;
+    letter-spacing: 0.12em;
+    margin-top: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+}
+
+/* ── 中間：股票名稱 + 代碼 ── */
+.header-stock {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* 股票公司名稱（大字，金色） */
+.header-stock-name {
+    font-family: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+    font-size: 2.2rem;           /* ← 股票名字體大小 */
+    font-weight: 700;
+    font-style: italic;
+    color: #b18e4d;              /* ← 股票名顏色（金色） */
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    padding-right: 0.05em;
+    line-height: 1;
+    transition: opacity 0.15s ease;
+}
+
+/* // 分隔符 */
+.header-stock-sep {
+    color: #ddd;
+    font-size: 1rem;
+    font-weight: 300;
+    flex-shrink: 0;
+}
+
+/* 股票代碼（細字，灰色，等寬字體） */
+.header-stock-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;          /* ← 代碼字體大小 */
+    font-weight: 600;
+    color: #aaa;                 /* ← 代碼顏色（淺灰） */
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity 0.15s ease;
+}
+
+/* ── 響應式 ── */
+@media (max-width: 640px) {
+    .header-bar {
+        flex-wrap: wrap;
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+        min-height: auto;
+    }
+    .header-divider { display: none; }
+
+    .header-logo { padding: 0.25rem 0; }
+    .allin-brand { --allin-size: 1.25rem; }
+    .allin-tagline { display: none; }
+
+    .header-stock {
+        order: 3;           /* 手機版：股票名排去第三行 */
+        width: 100%;
+        padding: 0.25rem 0 0.5rem;
+        gap: 6px;
+    }
+    .header-stock-name { font-size: 1.1rem; }
+    .header-stock-code { font-size: 0.75rem; }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .header-bar { padding: 0 1.5rem; }
+    .header-stock-name { font-size: 1.3rem; }
+    .allin-brand { --allin-size: 1.35rem; }
+}
+
+
+
+/* ==========================================================
+   9. Dr. K 卡通人物 — 貼住查詢按鈕右側，少少遮蔽
+   ========================================================== */
+
+/* 搜尋列容器：relative 讓 Dr. K 可以絕對定位 */
+.drk-search-row {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+}
+
+/* 表單本身 */
+.drk-form {
+    display: flex;
+}
+
+/* ┌─────────────────────────────────────────────────┐
+   │  ★ Dr. K 位置 & 大小 — 只需改呢個 block        │
+   │                                                 │
+   │  bottom      : 正數 = 向上移，負數 = 向下移     │
+   │                0 = 同按鈕底部對齊               │
+   │                                                 │
+   │  left: 100%  : 固定唔動（form 右邊緣）          │
+   │  translateX  : 負數 = 向左遮蔽按鈕              │
+   │                -18px = 遮蔽 18px                │
+   │                0px   = 完全係按鈕右邊            │
+   │                                                 │
+   │  height      : Dr. K 高度（寬度自動等比）        │
+   └─────────────────────────────────────────────────┘ */
+.drk-character {
+    position: absolute;
+    bottom: -40px;              /* ← 改呢度：上下位置 */
+    left: 100%;
+    transform: translateX(-28px);  /* ← 改呢度：左右遮蔽量（負數=向左） */
+
+    height: 130px;             /* ← 改呢度：Desktop 大小 */
+    width: auto;
+
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.18));
+    transition: transform 0.25s ease;
+    z-index: 20;
+    pointer-events: auto;
+    display: block;
+}
+
+.drk-character:hover {
+    transform: translateX(-18px) translateY(-5px) scale(1.06);
+    /* ↑ translateX 要同上面 transform 保持一致 */
+}
+
+/* ┌─────────────────────────────────────────────────┐
+   │  ★ 手機版（螢幕寬度 ≤ 640px）單獨調整          │
+   └─────────────────────────────────────────────────┘ */
+@media (max-width: 640px) {
+    .drk-character {
+        height: 70px;             /* ← 改呢度：手機大小 */
+        transform: translateX(-14px);  /* ← 改呢度：手機左右遮蔽量 */
+    }
+    .drk-character:hover {
+        transform: translateX(-14px) translateY(-4px) scale(1.05);
+        /* ↑ translateX 要同上面手機 transform 保持一致 */
+    }
+}
+
+/* Header overflow visible（讓 Dr. K 可超出 header 邊界） */
+header {
+    overflow: visible !important;
+}
