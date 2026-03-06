@@ -37,16 +37,31 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* 固定預覽文字高度（確保所有卡片等高） */
+/* 預覽文字區：固定高度 + 淡出遮罩 */
 .preview-box {
-    height: 60px;
+    height: 72px;
+    flex-grow: 0;
+    position: relative;
     overflow: hidden;
-    flex-grow: 1;
+}
+.preview-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 28px;
+    background: linear-gradient(transparent, #FBF9F4);
+    pointer-events: none;
 }
 .preview-box p {
     font-size: 12px !important;
     line-height: 1.6 !important;
     color: #555 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    overflow: hidden;
+    white-space: normal;
 }
 
 
@@ -492,9 +507,9 @@ body {
         font-size: 13px !important;
     }
 
-    /* 預覽文字區：手機稍微加高一點，避免文字被截斷 */
+    /* 預覽文字區：手機維持等高 */
     .preview-box {
-        height: 90px;
+        height: 72px;
     }
 
     /* 彈出視窗內容區：手機 padding 縮小 */
@@ -592,7 +607,7 @@ body {
         padding: 20px;
     }
     .preview-box {
-        height: 85px;
+        height: 72px;
     }
 }
 

@@ -111,7 +111,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
             // 擷取純文字作為預覽
             const temp = document.createElement('div');
             temp.innerHTML = data.report;
-            preview.innerText = temp.innerText.substring(0, 80) + '...';
+            preview.innerText = temp.innerText.substring(0, 200);
             preview.classList.remove('italic', 'text-gray-400');
             preview.classList.add('text-gray-600');
 
