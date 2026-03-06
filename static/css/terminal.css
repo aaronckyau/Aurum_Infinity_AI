@@ -6,7 +6,7 @@
    區塊索引：
      1. 卡片元件         — .section-card, .preview-box
      2. 更新按鈕與快取標記 — .update-btn, .cache-badge
-     3. 彈出報告視窗      — .draggable-window 及其子元素
+     3. 彩出報告視窗      — .draggable-window 及其子元素
      4. AI 報告內容樣式   — .window-body 內的 Markdown 轉 HTML
    
    修改指引：
@@ -76,7 +76,7 @@
 
 
 /* ==========================================================
-   3. 彈出報告視窗
+   3. 彩出報告視窗
    ========================================================== */
 
 .draggable-window {
@@ -400,7 +400,7 @@ body {
         height: 12px;
     }
 
-    /* ── 彈出視窗報告內文字體縮小 ── */
+    /* ── 彩出視窗報告內文字體縮小 ── */
     .window-body {
         font-size: 13px;
         line-height: 1.75;
@@ -508,7 +508,7 @@ input[type="text"] {
     position: relative;
     overflow: visible;
     padding: 0 2rem;
-    min-height: 72px;
+    min-height: 100px;
 }
 
 /* 左側細分隔線 */
@@ -578,7 +578,7 @@ input[type="text"] {
     display: flex;
     align-items: baseline;
     gap: 10px;
-    flex-shrink: 1;
+    flex-shrink: 0.5;
     min-width: 0;
     overflow: hidden;
 }
@@ -593,7 +593,7 @@ input[type="text"] {
     letter-spacing: 0.05em;
     white-space: nowrap;
     padding-right: 0.05em;
-    line-height: 1;
+    line-height: 1.2;
     transition: opacity 0.15s ease;
 }
 
