@@ -298,7 +298,7 @@ function openPopUp(id, title) {
         });
     }
 
-    // 手機版：添加 swipe-down 關閉手勢（向下滑 80px+ 即關閉）
+    // 手機版：添加 swipe-down 關閉手勢（只在 scrollTop === 0 時啟用，避免與內容滾動衝突）
     const isMobile = window.matchMedia('(max-width: 640px)').matches;
     if (isMobile) {
         let touchStartY = 0, swipeMoved = false;
@@ -309,7 +309,9 @@ function openPopUp(id, title) {
         }, { passive: true });
 
         win.addEventListener('touchmove', (e) => {
-            if (swipeMoved) return;  // 只計算一次
+            // 只在內容尚未滾動時才允許 swipe 關閉（scrollTop === 0）
+            if (swipeMoved || windowBody.scrollTop > 0) return;
+
             const deltaY = e.touches[0].clientY - touchStartY;
 
             // 如果向下滑超過 80px，標記 swipeMoved
@@ -322,11 +324,11 @@ function openPopUp(id, title) {
         win.addEventListener('touchend', (e) => {
             const deltaY = e.changedTouches[0].clientY - touchStartY;
 
-            if (deltaY > 80) {
-                // 向下滑超過 80px：關閉
+            if (deltaY > 80 && windowBody.scrollTop === 0) {
+                // 向下滑超過 80px 且未滾動：關閉
                 win.remove();
             } else {
-                // 未達閥值：復原
+                // 未達閥值或已滾動：復原
                 win.style.opacity = '1';
             }
         }, { passive: true });
