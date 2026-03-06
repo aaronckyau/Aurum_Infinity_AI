@@ -75,9 +75,19 @@ async function fetchSection(sectionId, forceUpdate = false) {
 
     // 進入載入狀態
     dot.className = 'loading-pulse';
-    preview.innerHTML = '正在計算核心數據並生成報告...';
     if (badge)     badge.innerHTML = '';
     if (updateBtn) updateBtn.disabled = true;
+
+    // 動態載入訊息（每 3 秒切換）
+    const loadingMessages = ['正在收集資料...', '正在分析中...', '快完成了！', '結果馬上就出來啦～'];
+    let msgIndex = 0;
+    preview.innerHTML = loadingMessages[0];
+    const msgTimer = setInterval(() => {
+        if (msgIndex < loadingMessages.length - 1) {
+            msgIndex++;
+            preview.innerHTML = loadingMessages[msgIndex];
+        }
+    }, 3000);
 
     try {
         const response = await fetch(`/analyze/${sectionId}`, {
@@ -89,6 +99,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
             })
         });
         const data = await response.json();
+        clearInterval(msgTimer);
 
         // 競態保護：若期間已切換股票，丟棄此舊回應
         if (myRequestId !== _fetchRequestId) return;
@@ -107,11 +118,6 @@ async function fetchSection(sectionId, forceUpdate = false) {
             dot.className = 'w-2 h-2 rotate-45 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]';
             if (btn) btn.classList.remove('hidden');
 
-            if (updateBtn) {
-                updateBtn.style.display = 'block';
-                updateBtn.disabled = false;
-            }
-
             // 快取標記
             if (badge) {
                 badge.innerHTML = (data.from_cache && !forceUpdate)
@@ -127,6 +133,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
         }
 
     } catch (e) {
+        clearInterval(msgTimer);
         // ❌ 網絡錯誤
         if (myRequestId !== _fetchRequestId) return; // 切換中，靜默丟棄
         preview.innerHTML = '數據連結中斷，請重試';
@@ -176,14 +183,14 @@ function openPopUp(id, title) {
                 <span class="window-header-tag">// ${getCurrentTicker()} 智能終端</span>
             </div>
             <div class="window-controls">
-                <button class="window-ctrl-btn btn-minimize" onclick="toggleMinimize('win-${id}')" title="最小化">
+                <button class="window-ctrl-btn btn-minimize desktop-only" onclick="toggleMinimize('win-${id}')" title="最小化">
                     <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/></svg>
                 </button>
-                <div class="window-ctrl-divider"></div>
-                <button class="window-ctrl-btn btn-maximize" onclick="toggleMaximize('win-${id}')" title="最大化">
+                <div class="window-ctrl-divider desktop-only"></div>
+                <button class="window-ctrl-btn btn-maximize desktop-only" onclick="toggleMaximize('win-${id}')" title="最大化">
                     <svg viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="1"/></svg>
                 </button>
-                <div class="window-ctrl-divider"></div>
+                <div class="window-ctrl-divider desktop-only"></div>
                 <button class="window-ctrl-btn btn-close" onclick="document.getElementById('win-${id}').remove()" title="關閉">
                     <svg viewBox="0 0 16 16"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
                 </button>
@@ -193,6 +200,18 @@ function openPopUp(id, title) {
             <div class="max-w-4xl mx-auto py-4">
                 ${analysisCache[id] || '<p style="color:#999;">暫無數據</p>'}
             </div>
+        </div>
+        <!-- 懸浮面板（只在手機版顯示） -->
+        <div class="floating-panel mobile-only">
+            <button class="floating-btn scroll-to-top" title="回到頂部">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M7 14l5-5 5 5z" fill="currentColor"/></svg>
+            </button>
+            <button class="floating-btn share-btn" title="分享">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.15c.52.47 1.2.77 1.96.77 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.82 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.82 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" fill="currentColor"/></svg>
+            </button>
+            <button class="floating-btn close-btn" title="關閉">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="currentColor"/></svg>
+            </button>
         </div>`;
 
     document.getElementById('popup-container').appendChild(win);
@@ -205,6 +224,113 @@ function openPopUp(id, title) {
         table.parentNode.insertBefore(wrapper, table);
         wrapper.appendChild(table);
     });
+
+    // 進度條：更新用戶滑動進度（SVG 動態版）
+    const windowBody = win.querySelector('.window-body');
+    const windowHeader = win.querySelector('.window-header');
+    const floatingPanel = win.querySelector('.floating-panel');
+    const scrollToTopBtn = win.querySelector('.scroll-to-top');
+    const shareBtn = win.querySelector('.share-btn');
+    const closeBtnFloating = win.querySelector('.floating-panel .close-btn');
+
+    // 在 header 下方插入進度條（CSS div 版）
+    const progressBar = document.createElement('div');
+    progressBar.className = 'progress-bar-track';
+    const progressFill = document.createElement('div');
+    progressFill.className = 'progress-bar-fill';
+    progressBar.appendChild(progressFill);
+    windowHeader.insertAdjacentElement('afterend', progressBar);
+
+    windowBody.addEventListener('scroll', () => {
+        const scrolled = windowBody.scrollTop;
+        const scrollHeight = windowBody.scrollHeight - windowBody.clientHeight;
+        const scrollPercent = scrollHeight > 0 ? (scrolled / scrollHeight) * 100 : 0;
+
+        // 更新進度條寬度
+        progressFill.style.width = scrollPercent + '%';
+
+        // 懸浮面板：滑超過 300px 時淡入
+        if (scrolled > 300) {
+            floatingPanel.classList.add('visible');
+        } else {
+            floatingPanel.classList.remove('visible');
+        }
+    }, { passive: true });
+
+    // 懸浮面板事件：回到頂部
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', () => {
+            windowBody.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // 懸浮面板事件：分享
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+            const shareData = {
+                title: title,
+                text: `查看 ${getCurrentTicker()} 的 ${title} 分析`,
+                url: window.location.href
+            };
+
+            const fallbackCopy = () => {
+                try {
+                    navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`)
+                        .then(() => alert('已複製到剪貼板'))
+                        .catch(() => alert('請手動複製：' + shareData.url));
+                } catch {
+                    alert('請手動複製：' + shareData.url);
+                }
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(fallbackCopy);
+            } else {
+                fallbackCopy();
+            }
+        });
+    }
+
+    // 懸浮面板事件：關閉
+    if (closeBtnFloating) {
+        closeBtnFloating.addEventListener('click', () => {
+            win.remove();
+        });
+    }
+
+    // 手機版：添加 swipe-down 關閉手勢（向下滑 80px+ 即關閉）
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+    if (isMobile) {
+        let touchStartY = 0, swipeMoved = false;
+
+        win.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            swipeMoved = false;
+        }, { passive: true });
+
+        win.addEventListener('touchmove', (e) => {
+            if (swipeMoved) return;  // 只計算一次
+            const deltaY = e.touches[0].clientY - touchStartY;
+
+            // 如果向下滑超過 80px，標記 swipeMoved
+            if (deltaY > 80) {
+                swipeMoved = true;
+                win.style.opacity = `${1 - deltaY / 300}`;  // 漸褪淡出效果
+            }
+        }, { passive: true });
+
+        win.addEventListener('touchend', (e) => {
+            const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+            if (deltaY > 80) {
+                // 向下滑超過 80px：關閉
+                win.remove();
+            } else {
+                // 未達閥值：復原
+                win.style.opacity = '1';
+            }
+        }, { passive: true });
+    }
 }
 
 

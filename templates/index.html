@@ -78,23 +78,19 @@
             <div class="h-[1px] flex-grow bg-gray-100"></div>
             <span class="text-sm sm:text-base text-[#b18e4d] font-bold tracking-widest italic">基本面分析</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {% for id, title, icon in [('biz', '商業模式', '策略'), ('exec', '治理效能', '管理層'), ('finance', '財務質量', '財務'), ('call', '會議展望', '展望')] %}
-            <div class="section-card p-4 sm:p-8">
-                <div class="flex justify-between items-start mb-6 sm:mb-8">
-                    <div class="flex items-center">
-                        <span class="text-sm text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
-                    </div>
-                    <div id="dot-{{ id }}" class="w-2 h-2 rotate-45 bg-gray-200 transition-colors duration-500"></div>
+            <div class="section-card p-3 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="openPopUp('{{ id }}', '{{ title }}')">
+                <div class="flex justify-between items-start mb-3 sm:mb-4">
+                    <span class="text-xs text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
+                    <div id="dot-{{ id }}" class="w-1.5 h-1.5 rotate-45 bg-gray-200 transition-colors duration-500"></div>
                 </div>
-                <h5 class="font-black text-lg mb-4 tracking-tight">{{ title }}</h5>
+                <h5 class="font-black text-sm sm:text-base mb-2 sm:mb-3 tracking-tight line-clamp-1">{{ title }}</h5>
                 <div class="preview-box">
-                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic">系統初始化中...</p>
+                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic text-xs">系統初始化中...</p>
                 </div>
-                <button id="btn-{{ id }}" onclick="openPopUp('{{ id }}', '{{ title }}')"
-                        class="hidden w-full mt-6 sm:mt-8 py-3 text-xs font-bold tracking-[0.2em] border border-gray-200 bg-gray-50 hover:bg-white hover:border-[#b18e4d] transition-all mono">開啟報告</button>
-                <button id="update-{{ id }}" onclick="updateSection('{{ id }}')"
-                        class="update-btn mono">🔄 重新分析</button>
+                <button id="update-{{ id }}" onclick="event.stopPropagation(); updateSection('{{ id }}')"
+                        class="update-btn-small hidden text-xs text-[#b18e4d] hover:text-[#c5a66d] transition-colors mono font-bold" disabled style="display: none !important;">🔄 更新</button>
             </div>
             {% endfor %}
         </div>
@@ -107,23 +103,19 @@
             <div class="h-[1px] flex-grow bg-gray-100"></div>
             <span class="text-sm sm:text-base text-[#b18e4d] font-bold tracking-widest italic">市場動態</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
             {% for id, title, icon in [('ta_price', '價格行為', '技術面'), ('ta_analyst', '市場預測', '分析師'), ('ta_social', '社群情緒', '輿情')] %}
-            <div class="section-card p-4 sm:p-8">
-                <div class="flex justify-between items-start mb-6 sm:mb-8">
-                    <div class="flex items-center">
-                        <span class="text-sm text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
-                    </div>
-                    <div id="dot-{{ id }}" class="w-2 h-2 rotate-45 bg-gray-200"></div>
+            <div class="section-card p-3 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="openPopUp('{{ id }}', '{{ title }}')">
+                <div class="flex justify-between items-start mb-3 sm:mb-4">
+                    <span class="text-xs text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
+                    <div id="dot-{{ id }}" class="w-1.5 h-1.5 rotate-45 bg-gray-200 transition-colors duration-500"></div>
                 </div>
-                <h5 class="font-black text-lg mb-4 tracking-tight">{{ title }}</h5>
+                <h5 class="font-black text-sm sm:text-base mb-2 sm:mb-3 tracking-tight line-clamp-1">{{ title }}</h5>
                 <div class="preview-box">
-                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic">待命狀態...</p>
+                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic text-xs">待命狀態...</p>
                 </div>
-                <button id="btn-{{ id }}" onclick="openPopUp('{{ id }}', '{{ title }}')"
-                        class="hidden w-full mt-6 sm:mt-8 py-3 text-xs font-bold tracking-[0.2em] border border-gray-200 bg-gray-50 hover:bg-white hover:border-[#b18e4d] transition-all mono">檢視分析</button>
-                <button id="update-{{ id }}" onclick="updateSection('{{ id }}')"
-                        class="update-btn mono">🔄 重新分析</button>
+                <button id="update-{{ id }}" onclick="event.stopPropagation(); updateSection('{{ id }}')"
+                        class="update-btn-small hidden text-xs text-[#b18e4d] hover:text-[#c5a66d] transition-colors mono font-bold" disabled style="display: none !important;">🔄 更新</button>
             </div>
             {% endfor %}
         </div>

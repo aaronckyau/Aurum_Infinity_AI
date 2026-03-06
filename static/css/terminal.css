@@ -21,22 +21,32 @@
    ========================================================== */
 
 .section-card {
-    background: white;
-    border: 1px solid #eee;
+    background: linear-gradient(135deg, #FEFDFB 0%, #FBF9F4 100%);
+    border: 1px solid #f0ede6;
     border-top: 3px solid var(--aurum-gold);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
 }
 
+/* 卡片點擊互動 */
+.section-card:hover {
+    border-top-color: #c5a66d;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
 /* 固定預覽文字高度（確保所有卡片等高） */
 .preview-box {
-    height: 80px;
+    height: 60px;
     overflow: hidden;
+    flex-grow: 1;
 }
 .preview-box p {
-    font-size: 13px !important;
-    line-height: 1.7 !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    color: #555 !important;
 }
 
 
@@ -44,19 +54,24 @@
    2. 更新按鈕與快取標記
    ========================================================== */
 
-/* 「重新分析」按鈕（永久隱藏） */
+/* 舊的「重新分析」按鈕（隱藏） */
 .update-btn {
     display: none !important;
 }
-.update-btn:hover:not(:disabled) {
-    background: #fff;
-    border-color: #28a745;
-    color: #28a745;
+
+/* 新的小更新按鈕 */
+.update-btn-small {
+    padding: 4px 8px;
+    border-radius: 2px;
+    display: inline-block;
+    white-space: nowrap;
 }
-.update-btn:disabled {
-    background: #f0f0f0;
+.update-btn-small:hover:not(:disabled) {
+    opacity: 0.7;
+}
+.update-btn-small:disabled {
+    opacity: 0.4;
     cursor: not-allowed;
-    opacity: 0.5;
 }
 
 /* 快取標記（CACHE / FRESH） */
@@ -130,6 +145,23 @@
     border-bottom: 2px solid var(--aurum-gold);
     flex-shrink: 0;
     user-select: none;
+    position: relative;
+}
+
+/* 進度條 */
+.progress-bar-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #b18e4d, #FFB347, #FF6B6B);
+    transition: width 0.1s ease;
+    box-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
 }
 .window-header-left {
     display: flex; align-items: center; gap: 14px;
@@ -188,6 +220,56 @@
     0%   { opacity: 0.3; transform: scale(1) rotate(45deg); }
     50%  { opacity: 1;   transform: scale(1.2) rotate(45deg); }
     100% { opacity: 0.3; transform: scale(1) rotate(45deg); }
+}
+
+/* --- 懸浮面板（手機專用） --- */
+.floating-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 15;
+}
+
+.floating-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.floating-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--aurum-gold);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(177, 142, 77, 0.3);
+    padding: 0;
+}
+
+.floating-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 4px rgba(177, 142, 77, 0.4);
+}
+
+.floating-btn:hover {
+    background: #9d7d44;
+    box-shadow: 0 4px 12px rgba(177, 142, 77, 0.4);
+}
+
+.floating-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 
@@ -292,8 +374,29 @@ footer p { line-height: 1.6; }
 
 
 /* ==========================================================
-   5. 響應式 — 手機全屏彈出視窗
+   5. 響應式 — 手機彈出視窗
    ========================================================== */
+
+/* ── Desktop 專用元素（手機隱藏） ── */
+.desktop-only {
+    display: none !important;
+}
+@media (min-width: 641px) {
+    .desktop-only {
+        display: flex !important;
+    }
+}
+
+/* ── Mobile 專用元素（桌面隱藏） ── */
+.mobile-only {
+    display: none !important;
+}
+@media (max-width: 640px) {
+    .mobile-only {
+        display: flex !important;
+    }
+}
+
 @media (max-width: 640px) {
     .draggable-window {
         width: 100vw !important;
@@ -306,9 +409,39 @@ footer p { line-height: 1.6; }
         border-radius: 0 !important;
         box-shadow: none !important;
     }
-    .window-body { padding: 20px 16px; }
-    .window-header-left { padding: 12px 14px; gap: 10px; }
-    .window-header-tag { display: none; }
+
+    /* 手機版：最小化/最大化按鈕隱藏（已在 HTML 中加上 desktop-only class） */
+    .window-controls {
+        gap: 0;  /* 移除 divider 間距 */
+    }
+
+    /* 手機版：關閉按鈕更寬一點 */
+    .window-ctrl-btn {
+        width: 48px;  /* 從 40px 加寬到 48px */
+    }
+
+    .window-body {
+        padding: 20px 16px;
+        /* 手機版：sticky header 讓用户易於回到頂部 */
+        position: relative;
+    }
+
+    .window-header-left {
+        padding: 12px 14px;
+        gap: 10px;
+        /* 手機版：title 加粗，易於識別 */
+        font-weight: 700;
+    }
+
+    .window-header-tag {
+        display: none;
+    }
+
+    .window-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;  /* 確保 sticky header 在內容上方 */
+    }
 }
 
 
@@ -369,11 +502,8 @@ body {
         padding: 20px 16px 40px 16px;
     }
 
-    /* 彈出視窗表格：手機橫向可捲動 */
+    /* 彈出視窗表格：由 .table-wrapper 處理橫向捲動，table 本身不設 overflow */
     .window-body table {
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
         white-space: nowrap;
     }
 
