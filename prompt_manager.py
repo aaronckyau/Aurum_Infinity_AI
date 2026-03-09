@@ -170,6 +170,34 @@ class PromptManager:
         self._last_modified = os.path.getmtime(self.yaml_path)
         print(f"[PromptManager] 已儲存 {section} → {self.yaml_path}")
 
+    @staticmethod
+    def build_translation_prompt(source_html: str, target_lang: str) -> str:
+        """
+        建立翻譯 prompt，將已生成的繁中 HTML 報告翻譯成目標語言。
+
+        Args:
+            source_html: 繁體中文的 HTML 報告內容
+            target_lang: 目標語言代碼（zh_cn 或 en）
+
+        Returns:
+            給 Gemini 的翻譯 prompt 字串
+        """
+        lang_name = {
+            "zh_cn": "簡體中文（Simplified Chinese）",
+            "en":    "English",
+        }.get(target_lang, "English")
+
+        return (
+            f"Please translate the following financial analysis report into {lang_name}.\n\n"
+            "Requirements:\n"
+            "- Preserve ALL HTML tags and formatting exactly (headings, tables, bold, lists)\n"
+            "- Use standard financial terminology appropriate for the target language\n"
+            "- Do NOT translate: numbers, stock tickers, company English names, URLs\n"
+            "- Output ONLY the translated HTML content, no explanations or wrappers\n\n"
+            "---\n"
+            f"{source_html}"
+        )
+
     def list_variables(self, section: str) -> list:
         """列出某個 section 中使用的所有變數（方便除錯）"""
         import re

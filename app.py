@@ -24,7 +24,7 @@ import time
 from datetime import datetime
 
 import markdown
-from flask import Flask, render_template, request, jsonify, redirect, abort, make_response
+from flask import Flask, render_template, request, jsonify, redirect, abort, make_response, g
 
 from google import genai
 from google.genai import types
@@ -34,6 +34,7 @@ from file_cache import (
     get_stock, get_section_html, save_stock, save_section_html, VALID_SECTIONS
 )
 from read_stock_code import normalize_ticker, get_canonical_ticker, get_stock_info, search_stocks
+from translations import get_translations, SUPPORTED_LANGS, DEFAULT_LANG
 
 # ============================================================================
 # Configuration
@@ -52,6 +53,60 @@ class Config:
 
 
 app = Flask(__name__)
+
+
+# ============================================================================
+# 多語言支援
+# ============================================================================
+
+def get_current_lang() -> str:
+    """
+    偵測當前請求的語言偏好，優先順序：
+      1. URL 參數 ?lang=（最高優先，官網跳轉用）
+      2. Cookie lang
+      3. Accept-Language header（瀏覽器自動偵測）
+      4. 預設 zh-TW
+
+    回傳合法語言代碼：zh-TW / zh-CN / en
+    """
+    # 1. URL 參數
+    param_lang = request.args.get('lang', '').strip()
+    if param_lang in SUPPORTED_LANGS:
+        return param_lang
+
+    # 2. Cookie
+    cookie_lang = request.cookies.get('lang', '').strip()
+    if cookie_lang in SUPPORTED_LANGS:
+        return cookie_lang
+
+    # 3. Accept-Language header
+    accept = request.headers.get('Accept-Language', '')
+    for segment in accept.replace(' ', '').split(','):
+        code = segment.split(';')[0].lower()
+        if code in ('zh-tw', 'zh-hk'):
+            return 'zh_hk'
+        if code in ('zh-cn', 'zh'):
+            return 'zh_cn'
+        if code.startswith('en'):
+            return 'en'
+
+    return DEFAULT_LANG
+
+
+@app.after_request
+def set_lang_cookie(response):
+    """
+    若 URL 帶了 ?lang=，將語言存入 Cookie，
+    讓之後的請求不需再帶參數。
+    """
+    param_lang = request.args.get('lang', '').strip()
+    if param_lang in SUPPORTED_LANGS:
+        response.set_cookie(
+            'lang', param_lang,
+            max_age=365 * 24 * 3600,
+            samesite='Lax'
+        )
+    return response
 
 
 def get_today() -> str:
@@ -229,17 +284,22 @@ def index(ticker_raw: str):
 
         if stock_name is None:
             # 合法格式但資料庫查無此股票 → 顯示友善錯誤頁面
-            return render_template('error.html', ticker=ticker_raw, date=get_today()), 404
+            lang = get_current_lang()
+            t    = get_translations(lang)
+            return render_template('error.html', ticker=ticker_raw, date=get_today(), lang=lang, t=t), 404
 
         chinese_name = stock_name
         save_stock(ticker=ticker, stock_name=stock_name,
                    chinese_name=chinese_name, exchange=exchange)
         print(f"[Cache] 儲存新股票基本資料 {ticker} → cache/")
 
+    lang = get_current_lang()
+    t    = get_translations(lang)
+
     cached_sections_html = {
         key: html
         for key in VALID_SECTIONS
-        if (html := get_section_html(ticker, key))
+        if (html := get_section_html(ticker, key, lang))
     }
 
     return render_template(
@@ -251,6 +311,8 @@ def index(ticker_raw: str):
         date=get_today(),
         sections=prompt_manager.get_section_names(),
         cached_sections=cached_sections_html or None,
+        lang=lang,
+        t=t,
     )
 
 
@@ -271,6 +333,9 @@ def analyze_section(section: str):
 
     raw_ticker   = request.json.get('ticker', '')
     force_update = request.json.get('force_update', False)
+    lang         = request.json.get('lang', DEFAULT_LANG)
+    if lang not in SUPPORTED_LANGS:
+        lang = DEFAULT_LANG
 
     # ── API 端同樣做格式驗證，防止繞過前端直接攻擊 API ───────
     if not is_valid_ticker(raw_ticker):
@@ -278,10 +343,11 @@ def analyze_section(section: str):
 
     ticker = resolve_ticker(raw_ticker)
 
+    # ── 1. 檢查目標語言快取 ───────────────────────────────────
     if not force_update:
-        cached_html = get_section_html(ticker, section)
+        cached_html = get_section_html(ticker, section, lang)
         if cached_html:
-            print(f"[Cache] 從快取讀取 {ticker} - {section}")
+            print(f"[Cache] 從快取讀取 {ticker} - {section} ({lang})")
             return jsonify({"success": True, "report": cached_html, "from_cache": True})
 
     stock_name, exchange = get_stock_info(ticker)
@@ -293,25 +359,51 @@ def analyze_section(section: str):
         save_stock(ticker, stock_name, chinese_name, exchange)
 
     try:
-        prompt = prompt_manager.build(
-            section=section,
-            ticker=ticker,
-            stock_name=stock_name,
-            exchange=exchange,
-            today=get_today(),
-            chinese_name=chinese_name,
-        )
-        print(f"[AI] 呼叫 Gemini AI 分析 {ticker} - {section}")
-        response_text = call_gemini_api(prompt, use_search=True)
+        # ── 2. 確保有繁中版本（所有語言的基礎）──────────────────
+        zh_tw_html = get_section_html(ticker, section, "zh_hk")
 
-        html_content = markdown.markdown(
-            response_text,
-            extensions=['tables', 'fenced_code', 'nl2br']
-        )
-        save_section_html(ticker, section, html_content)
-        print(f"[Cache] 已儲存 {ticker} - {section} → cache/{ticker}/{section}.html")
+        if not zh_tw_html or force_update:
+            prompt = prompt_manager.build(
+                section=section,
+                ticker=ticker,
+                stock_name=stock_name,
+                exchange=exchange,
+                today=get_today(),
+                chinese_name=chinese_name,
+            )
+            print(f"[AI] 呼叫 Gemini AI 分析 {ticker} - {section} (zh-TW)")
+            response_text = call_gemini_api(prompt, use_search=True)
 
-        return jsonify({"success": True, "report": html_content, "from_cache": False})
+            zh_tw_html = markdown.markdown(
+                response_text,
+                extensions=['tables', 'fenced_code', 'nl2br']
+            )
+            save_section_html(ticker, section, zh_tw_html, lang="zh_hk")
+            print(f"[Cache] 已儲存 {ticker} - {section} → zh-TW")
+
+        # ── 3. 若目標語言是繁中，直接回傳 ────────────────────────
+        if lang == "zh_hk":
+            return jsonify({"success": True, "report": zh_tw_html, "from_cache": False})
+
+        # ── 4. 其他語言：用 Gemini 翻譯繁中結果 ─────────────────
+        print(f"[AI] 翻譯 {ticker} - {section} → {lang}")
+        translation_prompt = prompt_manager.build_translation_prompt(zh_tw_html, lang)
+        translated_text    = call_gemini_api(translation_prompt, use_search=False)
+
+        # 翻譯結果已是 HTML，不需再 markdown 轉換
+        # 但若 AI 回傳了 markdown，做一次轉換保險
+        if translated_text.strip().startswith('<'):
+            translated_html = translated_text
+        else:
+            translated_html = markdown.markdown(
+                translated_text,
+                extensions=['tables', 'fenced_code', 'nl2br']
+            )
+
+        save_section_html(ticker, section, translated_html, lang=lang)
+        print(f"[Cache] 已儲存 {ticker} - {section} → {lang}")
+
+        return jsonify({"success": True, "report": translated_html, "from_cache": False})
 
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})

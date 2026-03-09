@@ -23,7 +23,7 @@
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Noto+Sans+SC:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono&display=swap" rel="stylesheet">
 
     <!-- 全站共用 CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
@@ -31,7 +31,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}{% endblock %}" {% block body_attrs %}{% endblock %}>
     {% block content %}{% endblock %}
     {% block extra_js %}{% endblock %}
 </body>

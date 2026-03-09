@@ -17,6 +17,38 @@
 
 
 /* ==========================================================
+   0. 語言切換器
+   ========================================================== */
+
+.lang-switcher {
+    gap: 4px;
+}
+
+.lang-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    text-decoration: none;
+    padding: 3px 5px;
+    border-radius: 3px;
+    transition: color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+}
+
+.lang-btn:hover {
+    color: var(--aurum-gold);
+}
+
+.lang-btn.lang-active {
+    color: var(--aurum-gold);
+    font-weight: 700;
+    background: rgba(177, 142, 77, 0.08);
+}
+
+
+/* ==========================================================
    1. 卡片元件
    ========================================================== */
 

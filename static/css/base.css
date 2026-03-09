@@ -20,6 +20,11 @@ body {
     font-size: 15px;
 }
 
+/* 簡體中文專用字型 */
+body[data-lang="zh_cn"] {
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
 /* 等寬字體（股票代碼、標籤） */
 .mono { font-family: 'JetBrains Mono', monospace; }
 

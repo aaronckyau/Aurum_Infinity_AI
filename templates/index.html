@@ -15,10 +15,12 @@
 
 {% extends "base.html" %}
 
-{% block title %}{{ chinese_name }} 投資決策終端 | Aurum Intelligence{% endblock %}
+{% block title %}{{ chinese_name }} {{ t.terminal_title }} | Aurum Intelligence{% endblock %}
 
-{# body 加上 data-ticker 供 JS 讀取 #}
-{% block body_class %}p-3 sm:p-6" data-ticker="{{ ticker }}{% endblock %}
+{# body class #}
+{% block body_class %}p-3 sm:p-6{% endblock %}
+{# body data 屬性（data-ticker、data-lang、data-i18n 供 JS 讀取） #}
+{% block body_attrs %}data-ticker="{{ ticker }}" data-lang="{{ lang }}" data-i18n='{{ t | tojson }}'{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
@@ -33,8 +35,8 @@
         <!-- ① 左：App Logo -->
         <div class="header-logo">
             <div class="allin-brand">
-                <span class="allin-text">K</span>
-                <span class="allin-sub">博士投研站</span>
+                <span class="allin-text">{% if lang == 'en' %}Dr. K{% else %}K{% endif %}</span>
+                <span class="allin-sub">{% if lang == 'en' %}Research Hub{% else %}博士投研站{% endif %}</span>
             </div>
             <p class="allin-tagline">by Aurum Infinity Capital</p>
         </div>
@@ -52,15 +54,22 @@
         <!-- 彈性空白 -->
         <div class="flex-grow"></div>
 
-        <!-- ③ 右：搜尋欄 + Dr. K -->
+        <!-- ③ 右：語言切換器 + 搜尋欄 + Dr. K -->
+        <div class="lang-switcher flex items-center gap-1 shrink-0 mr-2">
+            <a href="?lang=zh_hk" class="lang-btn{% if lang == 'zh_hk' %} lang-active{% endif %}">繁</a>
+            <span class="text-gray-300 text-xs">|</span>
+            <a href="?lang=zh_cn" class="lang-btn{% if lang == 'zh_cn' %} lang-active{% endif %}">簡</a>
+            <span class="text-gray-300 text-xs">|</span>
+            <a href="?lang=en" class="lang-btn{% if lang == 'en' %} lang-active{% endif %}">EN</a>
+        </div>
         <div class="relative" id="autocomplete-wrapper">
             <div class="drk-search-row">
                 <form onsubmit="event.preventDefault(); handleSearchSubmit();"
                       class="flex bg-[#f9f9f9] border border-gray-200 focus-within:ring-1 ring-[#b18e4d] transition-all drk-form">
-                    <input type="text" id="stock-search-input" placeholder="股票代碼或名稱..."
+                    <input type="text" id="stock-search-input" placeholder="{{ t.search_placeholder }}"
                            autocomplete="off"
                            class="bg-transparent px-4 sm:px-6 py-3 sm:py-4 flex-1 sm:w-56 uppercase text-xs tracking-widest focus:outline-none mono min-w-0">
-                    <button type="submit" class="btn-gold px-5 sm:px-8 py-3 sm:py-4 text-xs font-bold uppercase tracking-[0.15em] shrink-0">查詢</button>
+                    <button type="submit" class="btn-gold px-5 sm:px-8 py-3 sm:py-4 text-xs font-bold uppercase tracking-[0.15em] shrink-0">{{ t.search_btn }}</button>
                 </form>
                 <img src="{{ url_for('static', filename='images/Dr.K.svg') }}" alt="Dr. K" class="drk-character">
             </div>
@@ -74,12 +83,14 @@
     <!-- ===== 基本面分析區（4 欄） ===== -->
     <div class="mb-8 sm:mb-16">
         <div class="flex items-center gap-4 mb-6 sm:mb-8">
-            <h4 class="text-lg sm:text-xl font-bold tracking-tight text-gray-900">基本面決策矩陣</h4>
+            <h4 class="text-lg sm:text-xl font-bold tracking-tight text-gray-900">{{ t.fundamental_title }}</h4>
             <div class="h-[1px] flex-grow bg-gray-100"></div>
-            <span class="text-sm sm:text-base text-[#b18e4d] font-bold tracking-widest italic">基本面分析</span>
+            <span class="text-sm sm:text-base text-[#b18e4d] font-bold tracking-widest italic">{{ t.fundamental_label }}</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-            {% for id, title, icon in [('biz', '商業模式', '策略'), ('exec', '治理效能', '管理層'), ('finance', '財務質量', '財務'), ('call', '會議展望', '展望')] %}
+            {% for id in ['biz', 'exec', 'finance', 'call'] %}
+            {% set title = t['card_' ~ id] %}
+            {% set icon  = t['icon_' ~ id] %}
             <div class="section-card p-3 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="openPopUp('{{ id }}', '{{ title }}')">
                 <div class="flex justify-between items-start mb-3 sm:mb-4">
                     <span class="text-xs text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
@@ -87,10 +98,10 @@
                 </div>
                 <h5 class="font-black text-sm sm:text-base mb-2 sm:mb-3 tracking-tight line-clamp-1">{{ title }}</h5>
                 <div class="preview-box">
-                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic text-xs">系統初始化中...</p>
+                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic text-xs">{{ t.init_msg }}</p>
                 </div>
                 <button id="update-{{ id }}" onclick="event.stopPropagation(); updateSection('{{ id }}')"
-                        class="update-btn-small hidden text-xs text-[#b18e4d] hover:text-[#c5a66d] transition-colors mono font-bold" disabled style="display: none !important;">🔄 更新</button>
+                        class="update-btn-small hidden text-xs text-[#b18e4d] hover:text-[#c5a66d] transition-colors mono font-bold" disabled style="display: none !important;">🔄 {{ t.updating }}</button>
             </div>
             {% endfor %}
         </div>
@@ -99,12 +110,14 @@
     <!-- ===== 技術面分析區（3 欄） ===== -->
     <div class="mb-12 sm:mb-24">
         <div class="flex items-center gap-4 mb-6 sm:mb-8">
-            <h4 class="text-lg sm:text-xl font-bold tracking-tight text-gray-900">技術與情緒診斷</h4>
+            <h4 class="text-lg sm:text-xl font-bold tracking-tight text-gray-900">{{ t.technical_title }}</h4>
             <div class="h-[1px] flex-grow bg-gray-100"></div>
-            <span class="text-sm sm:text-base text-[#b18e4d] font-bold tracking-widest italic">市場動態</span>
+            <span class="text-sm sm:text-base text-[#b18e4d] font-bold tracking-widest italic">{{ t.technical_label }}</span>
         </div>
         <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-            {% for id, title, icon in [('ta_price', '價格行為', '技術面'), ('ta_analyst', '市場預測', '分析師'), ('ta_social', '社群情緒', '輿情')] %}
+            {% for id in ['ta_price', 'ta_analyst', 'ta_social'] %}
+            {% set title = t['card_' ~ id] %}
+            {% set icon  = t['icon_' ~ id] %}
             <div class="section-card p-3 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="openPopUp('{{ id }}', '{{ title }}')">
                 <div class="flex justify-between items-start mb-3 sm:mb-4">
                     <span class="text-xs text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
@@ -112,10 +125,10 @@
                 </div>
                 <h5 class="font-black text-sm sm:text-base mb-2 sm:mb-3 tracking-tight line-clamp-1">{{ title }}</h5>
                 <div class="preview-box">
-                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic text-xs">待命狀態...</p>
+                    <p id="preview-{{ id }}" class="text-gray-400 leading-relaxed italic text-xs">{{ t.standby_msg }}</p>
                 </div>
                 <button id="update-{{ id }}" onclick="event.stopPropagation(); updateSection('{{ id }}')"
-                        class="update-btn-small hidden text-xs text-[#b18e4d] hover:text-[#c5a66d] transition-colors mono font-bold" disabled style="display: none !important;">🔄 更新</button>
+                        class="update-btn-small hidden text-xs text-[#b18e4d] hover:text-[#c5a66d] transition-colors mono font-bold" disabled style="display: none !important;">🔄 {{ t.updating }}</button>
             </div>
             {% endfor %}
         </div>
@@ -124,21 +137,14 @@
     <!-- ===== 免責聲明 ===== -->
     <footer class="mt-20 pt-12 border-t border-gray-200 pb-12 text-gray-500">
         <div class="max-w-5xl">
-            <h5 class="text-base font-bold text-gray-900 mb-6 tracking-widest italic">免責聲明與風險披露</h5>
+            <h5 class="text-base font-bold text-gray-900 mb-6 tracking-widest italic">{{ t.disclaimer_title }}</h5>
             <div class="grid grid-cols-1 gap-y-6 text-[10px] sm:text-[11px]">
                 <div>
-                    <p class="mb-4 leading-relaxed">本資訊僅為一般通訊，僅供提供資訊及參考之用。其性質屬教育性質，並非旨在作為對任何特定投資產品、策略、計劃特點或其他目的的意見、建議或推薦，亦不構成 Aureum Infinity Capital Limited（滶盈資本有限公司）參與本文所述任何交易的承諾。本資訊中所使用的任何例子均屬泛化、假設性及僅供說明用途。本材料並未包含足夠資訊以支持任何投資決定，閣下不應依賴本資訊來評估投資任何證券或產品的優劣。
-                    此外，閣下應自行獨立評估任何投資在法律、監管、稅務、信貸及會計方面的影響，並與閣下自身的專業顧問共同決定，本資訊所述任何投資是否適合閣下的個人目標。投資者應確保在作出任何投資前，取得所有可取得的相關資訊。
-                    <br><br>
-                    本資訊所載的任何預測、數字、意見、投資技巧及策略僅供資訊用途，基於若干假設及當前市場狀況，並可於無事先通知下變更。本資訊所呈現的所有內容，本公司已盡力確保於製作時準確，但並無就其準確性、完整性或及時性作出任何保證，亦不會就任何錯誤、遺漏或因依賴本資訊而產生的任何損失承擔責任。
-                    <br><br>
-                    必須注意，投資涉及風險，投資價值及來自投資的收入可能會因市場狀況及稅務協議而波動，投資者可能無法取回全部投資本金。過往表現及收益率並非當前及未來結果的可靠指標。
-                    <br><br>
-                    本內容並非針對任何特定司法管轄區的投資者而提供，不同司法管轄區的投資者應自行確保使用本內容符合當地法例及規定。本公司保留隨時修改、更新或撤回本內容的權利，而毋須事先通知。</p>
+                    <p class="mb-4 leading-relaxed">{{ t.disclaimer_body }}</p>
                 </div>
             </div>
-            <div class="mt-10 pt-6 border-t border-gray-100 text-xs tracking-widest flex justify-between">
-                <span>© Aurum Infinity Capital Limited  // 版權所有</span>
+            <div class="mt-10 pt-6 border-t border-gray-100 text-xs tracking-widest flex justify-between items-center">
+                <span>{{ t.copyright }}</span>
             </div>
         </div>
     </footer>

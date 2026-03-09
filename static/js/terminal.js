@@ -30,6 +30,18 @@ let _fetchRequestId = 0;   // 競態保護：navigateToStock 時遞增，舊回�
 // 從 <body data-ticker="NVDA"> 讀取初始股票代碼
 const TICKER = document.body.dataset.ticker || '';
 
+// 從 <body data-lang="zh_hk"> 讀取語言
+const LANG = document.body.dataset.lang || 'zh_hk';
+
+// 從 <body data-i18n='...'> 讀取翻譯字典
+const I18N = (function() {
+    try {
+        return JSON.parse(document.body.dataset.i18n || '{}');
+    } catch(e) {
+        return {};
+    }
+})();
+
 // 取得當前 ticker（切換後用 _optimisticTicker 覆蓋）
 function getCurrentTicker() {
     return window._optimisticTicker || TICKER;
@@ -79,7 +91,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
     if (updateBtn) updateBtn.disabled = true;
 
     // 動態載入訊息（每 3 秒切換）
-    const loadingMessages = ['正在收集資料...', '正在分析中...', '快完成了！', '結果馬上就出來啦～'];
+    const loadingMessages = I18N.loading_msgs || ['Loading...', 'Analyzing...', 'Almost done!', 'Coming right up!'];
     let msgIndex = 0;
     preview.innerHTML = loadingMessages[0];
     const msgTimer = setInterval(() => {
@@ -95,7 +107,8 @@ async function fetchSection(sectionId, forceUpdate = false) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 ticker: getCurrentTicker(),
-                force_update: forceUpdate
+                force_update: forceUpdate,
+                lang: LANG
             })
         });
         const data = await response.json();
@@ -120,14 +133,16 @@ async function fetchSection(sectionId, forceUpdate = false) {
 
             // 快取標記
             if (badge) {
+                const cacheLabel = I18N.cache_label || 'Cached';
+                const freshLabel = I18N.fresh_label || 'AI Live';
                 badge.innerHTML = (data.from_cache && !forceUpdate)
-                    ? '<span class="cache-badge cached">非即時數據</span>'
-                    : '<span class="cache-badge fresh">AI 即時分析</span>';
+                    ? `<span class="cache-badge cached">${cacheLabel}</span>`
+                    : `<span class="cache-badge fresh">${freshLabel}</span>`;
             }
 
         } else {
             // ❌ API 回傳失敗
-            preview.innerHTML = data.error || '分析失敗，請重試';
+            preview.innerHTML = data.error || 'Analysis failed, please retry';
             dot.className = 'w-2 h-2 rotate-45 bg-red-500';
             if (updateBtn) updateBtn.disabled = false;
         }
@@ -136,7 +151,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
         clearInterval(msgTimer);
         // ❌ 網絡錯誤
         if (myRequestId !== _fetchRequestId) return; // 切換中，靜默丟棄
-        preview.innerHTML = '數據連結中斷，請重試';
+        preview.innerHTML = 'Connection error, please retry';
         dot.className = 'w-2 h-2 rotate-45 bg-red-500';
         if (updateBtn) updateBtn.disabled = false;
     }
@@ -147,16 +162,16 @@ async function fetchSection(sectionId, forceUpdate = false) {
    2. updateSection — 強制重新分析
    ========================================================== */
 async function updateSection(sectionId) {
-    if (!confirm('確定要重新分析此區塊嗎？\n\n⚠️ 這將呼叫 AI API 生成最新分析。')) return;
+    if (!confirm(I18N.confirm_reanalyze || 'Re-analyze this section?\n\n⚠️ This will call the AI API.')) return;
 
     const updateBtn = document.getElementById(`update-${sectionId}`);
     const originalText = updateBtn.textContent;
-    updateBtn.textContent = '更新中...';
+    updateBtn.textContent = I18N.updating || 'Updating...';
     updateBtn.disabled = true;
 
     await fetchSection(sectionId, true);
 
-    updateBtn.textContent = '✅ 已更新';
+    updateBtn.textContent = I18N.updated || '✅ Updated';
     setTimeout(() => { updateBtn.textContent = originalText; }, 2000);
 }
 
@@ -180,36 +195,36 @@ function openPopUp(id, title) {
             <div class="window-header-left">
                 <div class="window-header-icon"></div>
                 <span class="window-header-title">${title}</span>
-                <span class="window-header-tag">// ${getCurrentTicker()} 智能終端</span>
+                <span class="window-header-tag">// ${getCurrentTicker()} ${I18N.smart_terminal || 'AI Terminal'}</span>
             </div>
             <div class="window-controls">
-                <button class="window-ctrl-btn btn-minimize desktop-only" onclick="toggleMinimize('win-${id}')" title="最小化">
+                <button class="window-ctrl-btn btn-minimize desktop-only" onclick="toggleMinimize('win-${id}')" title="${I18N.btn_minimize || 'Minimize'}">
                     <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/></svg>
                 </button>
                 <div class="window-ctrl-divider desktop-only"></div>
-                <button class="window-ctrl-btn btn-maximize desktop-only" onclick="toggleMaximize('win-${id}')" title="最大化">
+                <button class="window-ctrl-btn btn-maximize desktop-only" onclick="toggleMaximize('win-${id}')" title="${I18N.btn_maximize || 'Maximize'}">
                     <svg viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="1"/></svg>
                 </button>
                 <div class="window-ctrl-divider desktop-only"></div>
-                <button class="window-ctrl-btn btn-close" onclick="document.getElementById('win-${id}').remove()" title="關閉">
+                <button class="window-ctrl-btn btn-close" onclick="document.getElementById('win-${id}').remove()" title="${I18N.btn_close || 'Close'}">
                     <svg viewBox="0 0 16 16"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
                 </button>
             </div>
         </div>
         <div class="window-body">
             <div class="max-w-4xl mx-auto py-4">
-                ${analysisCache[id] || '<p style="color:#999;">暫無數據</p>'}
+                ${analysisCache[id] || `<p style="color:#999;">${I18N.no_data || 'No data available'}</p>`}
             </div>
         </div>
         <!-- 懸浮面板（只在手機版顯示） -->
         <div class="floating-panel mobile-only">
-            <button class="floating-btn scroll-to-top" title="回到頂部">
+            <button class="floating-btn scroll-to-top" title="${I18N.btn_scroll_top || 'Back to top'}">
                 <svg viewBox="0 0 24 24" width="20" height="20"><path d="M7 14l5-5 5 5z" fill="currentColor"/></svg>
             </button>
-            <button class="floating-btn share-btn" title="分享">
+            <button class="floating-btn share-btn" title="${I18N.btn_share || 'Share'}">
                 <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.15c.52.47 1.2.77 1.96.77 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.82 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.82 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" fill="currentColor"/></svg>
             </button>
-            <button class="floating-btn close-btn" title="關閉">
+            <button class="floating-btn close-btn" title="${I18N.btn_close || 'Close'}">
                 <svg viewBox="0 0 24 24" width="20" height="20"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" fill="currentColor"/></svg>
             </button>
         </div>`;
@@ -267,19 +282,23 @@ function openPopUp(id, title) {
     // 懸浮面板事件：分享
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
+            const shareTextTpl = I18N.share_text || 'View {ticker} {title} analysis';
+            const shareText = shareTextTpl.replace('{ticker}', getCurrentTicker()).replace('{title}', title);
             const shareData = {
                 title: title,
-                text: `查看 ${getCurrentTicker()} 的 ${title} 分析`,
+                text: shareText,
                 url: window.location.href
             };
 
             const fallbackCopy = () => {
+                const copiedMsg   = I18N.copied      || 'Copied to clipboard';
+                const manualMsg   = I18N.copy_manual || 'Please copy manually: ';
                 try {
                     navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`)
-                        .then(() => alert('已複製到剪貼板'))
-                        .catch(() => alert('請手動複製：' + shareData.url));
+                        .then(() => alert(copiedMsg))
+                        .catch(() => alert(manualMsg + shareData.url));
                 } catch {
-                    alert('請手動複製：' + shareData.url);
+                    alert(manualMsg + shareData.url);
                 }
             };
 
@@ -461,7 +480,7 @@ async function navigateToStock(code, name) {
         }, 150);
     }
 
-    document.title = `${name || code} 投資決策終端 | Aurum Intelligence`;
+    document.title = `${name || code} ${I18N.terminal_title || 'Investment Decision Terminal'} | Aurum Intelligence`;
     history.pushState({ code, name }, '', `/${code}`);
 
     // ── 2. 所有卡片進入 skeleton 狀態 ────────────────────────

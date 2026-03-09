@@ -55,9 +55,14 @@ def _info_path(ticker: str) -> str:
     return os.path.join(_ticker_dir(ticker), 'info.json')
 
 
-def _html_path(ticker: str, section: str) -> str:
-    """取得分析區塊 HTML 檔案的完整路徑"""
-    return os.path.join(_ticker_dir(ticker), f'{section}.html')
+def _html_path(ticker: str, section: str, lang: str = "") -> str:
+    """
+    取得分析區塊 HTML 檔案的完整路徑
+    lang 為空時使用舊格式 {section}.html（向下相容）
+    lang 有值時使用新格式 {section}_{lang}.html
+    """
+    filename = f'{section}_{lang}.html' if lang else f'{section}.html'
+    return os.path.join(_ticker_dir(ticker), filename)
 
 
 # ============================================================================
@@ -79,18 +84,36 @@ def get_stock(ticker: str) -> Optional[dict]:
         return json.load(f)
 
 
-def get_section_html(ticker: str, section: str) -> Optional[str]:
+def get_section_html(ticker: str, section: str, lang: str = "zh_hk") -> Optional[str]:
     """
     讀取特定分析區塊的 HTML 內容
+
+    Args:
+        ticker:  股票代碼
+        section: 分析區塊名稱
+        lang:    語言代碼（zh-TW / zh-CN / en），預設 zh-TW
+
+    向下相容邏輯：
+      1. 優先讀取 {section}_{lang}.html（新格式）
+      2. 若 lang == "zh_hk" 且新格式不存在，fallback 讀舊的 {section}.html
 
     Returns:
         HTML 字串；尚未分析則回傳 None
     """
-    path = _html_path(ticker, section)
-    if not os.path.exists(path):
-        return None
-    with open(path, 'r', encoding='utf-8') as f:
-        return f.read()
+    # 優先嘗試新格式
+    path = _html_path(ticker, section, lang)
+    if os.path.exists(path):
+        with open(path, 'r', encoding='utf-8') as f:
+            return f.read()
+
+    # 繁中 fallback 到舊格式（保護現有快取）
+    if lang == "zh_hk":
+        legacy_path = _html_path(ticker, section)
+        if os.path.exists(legacy_path):
+            with open(legacy_path, 'r', encoding='utf-8') as f:
+                return f.read()
+
+    return None
 
 
 def save_stock(ticker: str, stock_name: str, chinese_name: str, exchange: str):
@@ -124,15 +147,17 @@ def save_stock(ticker: str, stock_name: str, chinese_name: str, exchange: str):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def save_section_html(ticker: str, section: str, html_content: str):
+def save_section_html(ticker: str, section: str, html_content: str, lang: str = "zh_hk"):
     """
-    儲存分析區塊的 HTML 結果到 {section}.html
+    儲存分析區塊的 HTML 結果
     同時更新 info.json 的 updated_at 時間戳記
 
     Args:
         ticker:       股票代碼（已標準化）
         section:      分析區塊名稱，需在 VALID_SECTIONS 內
         html_content: 已轉換好的 HTML 字串
+        lang:         語言代碼（zh-TW / zh-CN / en），預設 zh-TW
+                      zh-TW 會同時寫入舊格式 {section}.html（向下相容）
     """
     if section not in VALID_SECTIONS:
         raise ValueError(f"非法的 section: {section}")
@@ -140,9 +165,14 @@ def save_section_html(ticker: str, section: str, html_content: str):
     ticker_dir = _ticker_dir(ticker)
     os.makedirs(ticker_dir, exist_ok=True)
 
-    # 寫入 HTML 檔案
-    with open(_html_path(ticker, section), 'w', encoding='utf-8') as f:
+    # 寫入新格式 HTML 檔案
+    with open(_html_path(ticker, section, lang), 'w', encoding='utf-8') as f:
         f.write(html_content)
+
+    # zh-TW 同時寫入舊格式，確保現有快取查詢不中斷
+    if lang == "zh_hk":
+        with open(_html_path(ticker, section), 'w', encoding='utf-8') as f:
+            f.write(html_content)
 
     # 更新 info.json 的 updated_at
     info_path = _info_path(ticker)
