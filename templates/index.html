@@ -94,7 +94,10 @@
             <div class="section-card p-3 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="openPopUp('{{ id }}', '{{ title }}')">
                 <div class="flex justify-between items-start mb-3 sm:mb-4">
                     <span class="text-xs text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
-                    <div id="dot-{{ id }}" class="w-1.5 h-1.5 rotate-45 bg-gray-200 transition-colors duration-500"></div>
+                    <div class="flex items-center gap-2">
+                        <div id="score-{{ id }}" class="hidden score-badge"></div>
+                        <div id="dot-{{ id }}" class="w-1.5 h-1.5 rotate-45 bg-gray-200 transition-colors duration-500"></div>
+                    </div>
                 </div>
                 <h5 class="font-black text-sm sm:text-base mb-2 sm:mb-3 tracking-tight line-clamp-1">{{ title }}</h5>
                 <div class="preview-box">
@@ -121,7 +124,10 @@
             <div class="section-card p-3 sm:p-6 cursor-pointer hover:shadow-lg transition-shadow" onclick="openPopUp('{{ id }}', '{{ title }}')">
                 <div class="flex justify-between items-start mb-3 sm:mb-4">
                     <span class="text-xs text-[#b18e4d] font-bold tracking-[0.15em] border-b border-[#b18e4d]/30 pb-1 mono">{{ icon }}</span>
-                    <div id="dot-{{ id }}" class="w-1.5 h-1.5 rotate-45 bg-gray-200 transition-colors duration-500"></div>
+                    <div class="flex items-center gap-2">
+                        <div id="score-{{ id }}" class="hidden score-badge"></div>
+                        <div id="dot-{{ id }}" class="w-1.5 h-1.5 rotate-45 bg-gray-200 transition-colors duration-500"></div>
+                    </div>
                 </div>
                 <h5 class="font-black text-sm sm:text-base mb-2 sm:mb-3 tracking-tight line-clamp-1">{{ title }}</h5>
                 <div class="preview-box">

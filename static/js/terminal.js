@@ -52,6 +52,74 @@ const ALL_SECTIONS = ['biz', 'finance', 'exec', 'call', 'ta_price', 'ta_analyst'
 
 
 /* ==========================================================
+   工具函數：從 HTML 報告中提取綜合評分
+   ========================================================== */
+function extractCompositeScore(htmlReport) {
+    /**
+     * 提取評分表的綜合評分（最後一行，通常是 **綜合評分** 或 **加權綜合評分**）
+     *
+     * 改進版本支援多種格式：
+     * - 第一列包含關鍵詞，分數在第 2 或第 3 列
+     * - 分數可以在任何單元格中
+     */
+
+    try {
+        const temp = document.createElement('div');
+        temp.innerHTML = htmlReport;
+
+        // 尋找所有表格
+        const tables = temp.querySelectorAll('table');
+
+        if (tables.length === 0) {
+            console.warn('[Score] No tables found in report');
+            return null;
+        }
+
+        // 掃描每個表格
+        for (let table of tables) {
+            const rows = table.querySelectorAll('tr');
+
+            // 逆向掃描，從最後一行開始
+            for (let i = rows.length - 1; i >= 0; i--) {
+                const row = rows[i];
+                const cells = row.querySelectorAll('td, th');
+
+                if (cells.length < 2) continue;
+
+                // 獲取每個單元格的文本
+                const cellTexts = Array.from(cells).map(c => c.textContent.trim());
+                const firstCell = cellTexts[0];
+
+                // 檢查是否是綜合評分行（支援多種變體）
+                if (firstCell.includes('綜合評分') || firstCell.includes('加權') || firstCell.includes('綜合情緒')) {
+                    // 嘗試從所有單元格中提取分數
+                    for (let j = 1; j < cellTexts.length; j++) {
+                        const cellText = cellTexts[j];
+                        const scoreMatch = cellText.match(/\d+(?:\.\d+)?/);
+
+                        if (scoreMatch) {
+                            const score = parseFloat(scoreMatch[0]);
+                            if (score >= 1 && score <= 10) {
+                                console.log(`[Score] Found: ${score} from cell ${j}`);
+                                return Math.round(score * 10) / 10;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        console.warn('[Score] No composite score found in tables');
+        return null;
+
+    } catch (error) {
+        console.error('[Score] Error extracting score:', error);
+        return null;
+    }
+}
+
+
+/* ==========================================================
    頁面載入：自動觸發全部分析模組
    ========================================================== */
 window.onload = function () {
@@ -130,6 +198,23 @@ async function fetchSection(sectionId, forceUpdate = false) {
 
             dot.className = 'w-2 h-2 rotate-45 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]';
             if (btn) btn.classList.remove('hidden');
+
+            // 提取並顯示綜合評分
+            const scoreElement = document.getElementById(`score-${sectionId}`);
+            if (scoreElement) {
+                const score = extractCompositeScore(data.report);
+                console.log(`[${sectionId}] Score extraction result:`, score);
+                console.log(`[${sectionId}] Report preview (first 500 chars):`, data.report.substring(0, 500));
+
+                if (score !== null) {
+                    scoreElement.textContent = score;
+                    scoreElement.classList.remove('hidden');
+                    console.log(`[${sectionId}] ✓ Score displayed: ${score}`);
+                } else {
+                    scoreElement.classList.add('hidden');
+                    console.log(`[${sectionId}] ✗ No score found`);
+                }
+            }
 
             // 快取標記
             if (badge) {
