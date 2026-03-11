@@ -90,8 +90,21 @@ function extractCompositeScore(htmlReport) {
                 const cellTexts = Array.from(cells).map(c => c.textContent.trim());
                 const firstCell = cellTexts[0];
 
-                // 檢查是否是綜合評分行（支援多種變體）
-                if (firstCell.includes('綜合評分') || firstCell.includes('加權') || firstCell.includes('綜合情緒')) {
+                // 檢查是否是綜合評分行（支援多種語言與變體）
+                const compositeScoreKeywords = [
+                    // 繁體中文
+                    '綜合評分', '加權', '綜合情緒',
+                    // 簡體中文
+                    '综合评分', '综合情绪',
+                    // 英文
+                    'composite', 'overall', 'combined', 'weighted'
+                ];
+
+                const isCompositeScoreLine = compositeScoreKeywords.some(keyword =>
+                    firstCell.toLowerCase().includes(keyword.toLowerCase())
+                );
+
+                if (isCompositeScoreLine) {
                     // 嘗試從所有單元格中提取分數
                     for (let j = 1; j < cellTexts.length; j++) {
                         const cellText = cellTexts[j];
@@ -146,6 +159,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
     const btn       = document.getElementById(`btn-${sectionId}`);
     const updateBtn = document.getElementById(`update-${sectionId}`);
     const badge     = document.getElementById(`badge-${sectionId}`);
+    const score     = document.getElementById(`score-${sectionId}`);
 
     // DOM 元素不存在時跳過（避免 crash）
     if (!dot || !preview) return;
@@ -156,6 +170,7 @@ async function fetchSection(sectionId, forceUpdate = false) {
     // 進入載入狀態
     dot.className = 'loading-pulse';
     if (badge)     badge.innerHTML = '';
+    if (score)     score.classList.add('hidden');  // ← 隱藏舊排名
     if (updateBtn) updateBtn.disabled = true;
 
     // 動態載入訊息（每 3 秒切換）
