@@ -147,6 +147,74 @@ def save_stock(ticker: str, stock_name: str, chinese_name: str, exchange: str):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+def _md_path(ticker: str, section: str, lang: str = "") -> str:
+    """
+    取得分析區塊 Markdown 檔案的完整路徑
+    lang 為空時使用舊格式 {section}.md（向下相容）
+    lang 有值時使用新格式 {section}_{lang}.md
+    """
+    filename = f'{section}_{lang}.md' if lang else f'{section}.md'
+    return os.path.join(_ticker_dir(ticker), filename)
+
+
+def save_section_md(ticker: str, section: str, md_content: str, lang: str = "zh_hk"):
+    """
+    儲存分析區塊的 Markdown 結果
+
+    Args:
+        ticker:       股票代碼（已標準化）
+        section:      分析區塊名稱，需在 VALID_SECTIONS 內
+        md_content:   Markdown 字串
+        lang:         語言代碼（zh_hk / zh_cn / en），預設 zh_hk
+    """
+    if section not in VALID_SECTIONS:
+        raise ValueError(f"非法的 section: {section}")
+
+    ticker_dir = _ticker_dir(ticker)
+    os.makedirs(ticker_dir, exist_ok=True)
+
+    # 寫入新格式 Markdown 檔案
+    with open(_md_path(ticker, section, lang), 'w', encoding='utf-8') as f:
+        f.write(md_content)
+
+    # zh_hk 同時寫入舊格式，確保向下相容
+    if lang == "zh_hk":
+        with open(_md_path(ticker, section), 'w', encoding='utf-8') as f:
+            f.write(md_content)
+
+
+def get_section_md(ticker: str, section: str, lang: str = "zh_hk") -> Optional[str]:
+    """
+    讀取特定分析區塊的 Markdown 內容
+
+    Args:
+        ticker:  股票代碼
+        section: 分析區塊名稱
+        lang:    語言代碼（zh_hk / zh_cn / en），預設 zh_hk
+
+    向下相容邏輯：
+      1. 優先讀取 {section}_{lang}.md（新格式）
+      2. 若 lang == "zh_hk" 且新格式不存在，fallback 讀舊的 {section}.md
+
+    Returns:
+        Markdown 字串；尚未分析則回傳 None
+    """
+    # 優先嘗試新格式
+    path = _md_path(ticker, section, lang)
+    if os.path.exists(path):
+        with open(path, 'r', encoding='utf-8') as f:
+            return f.read()
+
+    # 繁中 fallback 到舊格式（保護現有快取）
+    if lang == "zh_hk":
+        legacy_path = _md_path(ticker, section)
+        if os.path.exists(legacy_path):
+            with open(legacy_path, 'r', encoding='utf-8') as f:
+                return f.read()
+
+    return None
+
+
 def save_section_html(ticker: str, section: str, html_content: str, lang: str = "zh_hk"):
     """
     儲存分析區塊的 HTML 結果

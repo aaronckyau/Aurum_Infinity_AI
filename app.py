@@ -31,7 +31,7 @@ from google.genai import types
 
 from prompt_manager import PromptManager
 from file_cache import (
-    get_stock, get_section_html, save_stock, save_section_html, VALID_SECTIONS
+    get_stock, get_section_html, get_section_md, save_stock, save_section_html, save_section_md, VALID_SECTIONS
 )
 from read_stock_code import normalize_ticker, get_canonical_ticker, get_stock_info, search_stocks
 from translations import get_translations, SUPPORTED_LANGS, DEFAULT_LANG
@@ -296,6 +296,58 @@ def index(ticker_raw: str):
     lang = get_current_lang()
     t    = get_translations(lang)
 
+    # ── 檢查是否要求 Markdown 格式 ────────────────────────────
+    if request.args.get('md'):
+        # 蒐集所有可用的 Markdown 內容
+        md_sections = {}
+        for section in VALID_SECTIONS:
+            md = get_section_md(ticker, section, lang)
+            if md:
+                md_sections[section] = md
+
+        if not md_sections:
+            return jsonify({"error": f"找不到 {ticker} 的 Markdown 快取"}), 404
+
+        # ── 決定回傳格式：下載 vs 瀏覽 ────────────────────────
+        if request.args.get('download'):
+            # 下載模式：合併所有 section，回傳單一 .md 檔案
+            combined_md = f"# {stock_name} ({ticker}) — 完整分析報告\n\n"
+            combined_md += f"**生成日期**: {get_today()}\n"
+            combined_md += f"**語言**: {lang}\n\n---\n\n"
+
+            for section, md_content in md_sections.items():
+                section_name = prompt_manager.get_section_names().get(section, section)
+                combined_md += f"\n## {section_name}\n\n{md_content}\n\n---\n\n"
+
+            response = make_response(combined_md)
+            response.headers['Content-Type'] = 'text/markdown; charset=utf-8'
+            response.headers['Content-Disposition'] = f'attachment; filename="{ticker}_analysis.md"'
+            return response
+        else:
+            # 瀏覽模式：先轉換為 HTML 後展示
+            combined_html = f"<h1>{stock_name} ({ticker}) — 完整分析報告</h1>\n"
+            combined_html += f"<p><strong>生成日期</strong>: {get_today()} | <strong>語言</strong>: {lang}</p>\n"
+            combined_html += '<hr>\n'
+
+            for section, md_content in md_sections.items():
+                section_name = prompt_manager.get_section_names().get(section, section)
+                section_html = markdown.markdown(
+                    md_content,
+                    extensions=['tables', 'fenced_code', 'nl2br']
+                )
+                combined_html += f"\n<h2>{section_name}</h2>\n{section_html}\n<hr>\n"
+
+            return render_template(
+                'markdown_viewer.html',
+                ticker=ticker,
+                stock_name=stock_name,
+                content=combined_html,
+                download_url=f'/{ticker}?md&download=true&lang={lang}',
+                date=get_today(),
+                lang=lang,
+                t=t,
+            )
+
     cached_sections_html = {
         key: html
         for key in VALID_SECTIONS
@@ -324,6 +376,114 @@ def search_stock():
         return jsonify([])
     results = search_stocks(query, limit=8)
     return jsonify(results)
+
+
+@app.route('/api/markdown/<ticker_raw>/<section>')
+def api_markdown_section(ticker_raw: str, section: str):
+    """
+    REST API — 取得單一 section 的 Markdown
+
+    參數：
+      - lang: 語言代碼 (zh_hk / zh_cn / en)，預設 zh_hk
+
+    使用例：
+      GET /api/markdown/NVDA/biz
+      GET /api/markdown/NVDA/biz?lang=en
+      GET /api/markdown/0700.HK/finance?lang=zh_cn
+    """
+
+    # ── 安全驗證 ────────────────────────────────────────────
+    if not is_valid_ticker(ticker_raw):
+        abort(404)
+
+    if section not in VALID_SECTIONS:
+        abort(404)
+
+    ticker = resolve_ticker(ticker_raw)
+    lang = request.args.get('lang', DEFAULT_LANG).strip()
+    if lang not in SUPPORTED_LANGS:
+        lang = DEFAULT_LANG
+
+    # ── 讀取 Markdown 內容 ──────────────────────────────────
+    md_content = get_section_md(ticker, section, lang)
+    if not md_content:
+        abort(404)
+
+    # ── 回傳 .md 檔案 ──────────────────────────────────────
+    response = make_response(md_content)
+    response.headers['Content-Type'] = 'text/markdown; charset=utf-8'
+    response.headers['Content-Disposition'] = f'attachment; filename="{ticker}_{section}_{lang}.md"'
+    return response
+
+
+@app.route('/api/markdown/<ticker_raw>')
+def api_markdown_combined(ticker_raw: str):
+    """
+    REST API — 取得多個 sections 合併的 Markdown
+
+    參數：
+      - sections: 逗號分隔的 section 列表 (e.g., "biz,finance,exec")
+                  若未指定，則回傳所有可用的 section
+      - lang: 語言代碼 (zh_hk / zh_cn / en)，預設 zh_hk
+
+    使用例：
+      GET /api/markdown/NVDA
+      GET /api/markdown/NVDA?sections=biz,finance
+      GET /api/markdown/NVDA?sections=biz,finance&lang=en
+      GET /api/markdown/0700.HK?lang=zh_cn
+    """
+
+    # ── 安全驗證 ────────────────────────────────────────────
+    if not is_valid_ticker(ticker_raw):
+        abort(404)
+
+    ticker = resolve_ticker(ticker_raw)
+    lang = request.args.get('lang', DEFAULT_LANG).strip()
+    if lang not in SUPPORTED_LANGS:
+        lang = DEFAULT_LANG
+
+    # ── 解析 sections 參數 ────────────────────────────────────
+    sections_param = request.args.get('sections', '').strip()
+    if sections_param:
+        # 使用者指定的 sections
+        requested_sections = [s.strip() for s in sections_param.split(',') if s.strip()]
+        # 只保留合法的 section
+        requested_sections = [s for s in requested_sections if s in VALID_SECTIONS]
+    else:
+        # 預設：回傳所有可用的 section
+        requested_sections = list(VALID_SECTIONS)
+
+    if not requested_sections:
+        abort(404)
+
+    # ── 蒐集 Markdown 內容 ────────────────────────────────────
+    md_sections = {}
+    for section in requested_sections:
+        md = get_section_md(ticker, section, lang)
+        if md:
+            md_sections[section] = md
+
+    if not md_sections:
+        abort(404)
+
+    # ── 合併 Markdown 內容 ──────────────────────────────────
+    stock_info = get_stock(ticker)
+    stock_name = stock_info['stock_name'] if stock_info else ticker
+
+    combined_md = f"# {stock_name} ({ticker}) — 完整分析報告\n\n"
+    combined_md += f"**生成日期**: {get_today()}\n"
+    combined_md += f"**語言**: {lang}\n\n---\n\n"
+
+    for section in requested_sections:
+        if section in md_sections:
+            section_name = prompt_manager.get_section_names().get(section, section)
+            combined_md += f"\n## {section_name}\n\n{md_sections[section]}\n\n---\n\n"
+
+    # ── 回傳 .md 檔案 ──────────────────────────────────────
+    response = make_response(combined_md)
+    response.headers['Content-Type'] = 'text/markdown; charset=utf-8'
+    response.headers['Content-Disposition'] = f'attachment; filename="{ticker}_analysis_{lang}.md"'
+    return response
 
 
 @app.route('/analyze/<section>', methods=['POST'])
@@ -374,12 +534,17 @@ def analyze_section(section: str):
             print(f"[AI] 呼叫 Gemini AI 分析 {ticker} - {section} (zh-TW)")
             response_text = call_gemini_api(prompt, use_search=True)
 
+            # ── 儲存 Markdown 版本 ──────────────────────────────────
+            save_section_md(ticker, section, response_text, lang="zh_hk")
+            print(f"[Cache] 已儲存 Markdown {ticker} - {section} → zh-TW")
+
+            # ── 轉換為 HTML ──────────────────────────────────────
             zh_tw_html = markdown.markdown(
                 response_text,
                 extensions=['tables', 'fenced_code', 'nl2br']
             )
             save_section_html(ticker, section, zh_tw_html, lang="zh_hk")
-            print(f"[Cache] 已儲存 {ticker} - {section} → zh-TW")
+            print(f"[Cache] 已儲存 HTML {ticker} - {section} → zh-TW")
 
         # ── 3. 若目標語言是繁中，直接回傳 ────────────────────────
         if lang == "zh_hk":
@@ -595,7 +760,13 @@ def admin_preview_prompt(section_key: str):
 
     try:
         response_text = call_gemini_api(full_prompt, use_search=True)
-        html_content  = markdown.markdown(
+
+        # ── 儲存 Markdown 版本 ──────────────────────────────────
+        save_section_md(ticker, section_key, response_text, lang="zh_hk")
+        print(f"[Cache] 已儲存預覽 Markdown {ticker} - {section_key} → zh-TW")
+
+        # ── 轉換為 HTML ──────────────────────────────────────
+        html_content = markdown.markdown(
             response_text,
             extensions=['tables', 'fenced_code', 'nl2br']
         )
